@@ -1,0 +1,66 @@
+{
+  "grocery": [
+    {
+      "category": "Vegetable",
+      "itemlist": [
+        {
+          "name": "Brinjal",
+          "type": "W",
+          "price": 30.00
+        },
+        {
+          "name": "Tomato",
+          "type": "W",
+          "price": 12.00
+        },
+        {
+          "name": "Onion",
+          "type": "W",
+          "price": 28.00
+        },
+        {
+          "name": "Carrot",
+          "type": "W",
+          "price": 60.00
+        },
+        {
+          "name": "Raddish",
+          "type": "W",
+          "price": 60.00
+        },
+        {
+          "name": "Drumstick",
+          "type": "W",
+          "price": 88.00
+        },
+        {
+          "name": "Beans",
+          "type": "W",
+          "price": 48.00
+        }
+      ]
+    },
+    {
+      "category": "Dairy",
+      "itemlist": [
+        {
+          "name": "Milk",
+          "type": "L",
+          "price": 34.00
+        },
+        {
+          "name": "Curd",
+          "type": "L",
+          "price": 40.00
+        },
+        {
+          "name": "ButterMilk",
+          "type": "L",
+          "price": 40.00
+        }
+      ]
+    }
+  ],
+  "weight" : [ "100g","200g","300g","400g","500g","600g","700g","800g","900g","1kg","1.5kg","2kg" ],
+  "Litre" : [ "1/2L", "1L", "1.5L","2L"]
+}

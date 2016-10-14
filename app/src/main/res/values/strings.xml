@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Retail-App</string>
+    <string name="lbl">Text</string>
+    <string name="category_lbl">Category:</string>
+    <string name="category_prompt">Choose a Category</string>
+
+    <string-array name="category">
+        <item>Vegetable</item>
+        <item>Beverages</item>
+        <item>Bakery</item>
+        <item>Canned Goods</item>
+        <item>Dairy</item>
+        <item>Forzen Foods</item>
+        <item>Meat</item>
+        <item>Fruits</item>
+        <item>Personal Care</item>
+        <item>Baby Item</item>
+    </string-array>
+
+    <string-array name="Vegetable">
+        <item>Brinjal</item>
+        <item>Onions</item>
+        <item>Tomato</item>
+        <item>Cucumber</item>
+        <item>Bitter Guard</item>
+        <item>Snake Gaurd</item>
+        <item>Pumkin</item>
+        <item>Potato</item>
+        <item>BeetRoot</item>
+        <item>Califlower</item>
+    </string-array>
+
+</resources>
