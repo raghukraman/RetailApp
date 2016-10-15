@@ -33,12 +33,14 @@
     </Spinner>
 
     <Spinner
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/list"
         android:prompt="@string/category_prompt"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="30dp">
+        android:layout_gravity="left"
+        android:layout_marginTop="30dp"
+        android:layout_weight="0.7"
+         >
     </Spinner>
 
     <Spinner
@@ -47,7 +49,10 @@
     android:id="@+id/weight"
     android:prompt="@string/category_prompt"
     android:layout_gravity="center_vertical"
-    android:layout_marginTop="30dp">
+    android:layout_marginTop="30dp"
+        android:layout_toRightOf="@id/list"
+        android:layout_weight="0.3"
+         >
 
 
 </Spinner>

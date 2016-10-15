@@ -4,39 +4,134 @@
       "category": "Vegetable",
       "itemlist": [
         {
-          "name": "Brinjal",
-          "type": "W",
-          "price": 30.00
+          "name": "Brinjal[r]",
+          "type": "weight",
+          "price": 25.00
         },
         {
           "name": "Tomato",
-          "type": "W",
+          "type": "weight",
           "price": 12.00
         },
         {
           "name": "Onion",
-          "type": "W",
+          "type": "weight",
           "price": 28.00
         },
         {
-          "name": "Carrot",
-          "type": "W",
-          "price": 60.00
+          "name": "Carrot nati",
+          "type": "weight",
+          "price": 40.00
         },
         {
           "name": "Raddish",
-          "type": "W",
-          "price": 60.00
+          "type": "weight",
+          "price": 29.00
+        },
+        {
+          "name": "Raddish Red",
+          "type": "weight",
+          "price": 80.00
         },
         {
           "name": "Drumstick",
-          "type": "W",
-          "price": 88.00
+          "type": "weight",
+          "price": 54.00
         },
         {
           "name": "Beans",
-          "type": "W",
+          "type": "weight",
           "price": 48.00
+        },
+        {
+          "name": "snake guard",
+          "type": "weight",
+          "price": 18.00
+        },
+        {
+          "name": "garlic",
+          "type": "weight",
+          "price": 174.00
+        },
+        {
+          "name": "cucumber",
+          "type": "weight",
+          "price": 12.00
+        },
+        {
+          "name": "cauliflower",
+          "type": "weight",
+          "price": 45.00
+        },
+        {
+          "name": "baby corn",
+          "type": "weight",
+          "price": 20.00
+        },
+        {
+          "name": "beet root",
+          "type": "weight",
+          "price": 20.00
+        },
+        {
+          "name": "brinjal white",
+          "type": "weight",
+          "price": 25.00
+        },
+        {
+          "name": "cabbage",
+          "type": "weight",
+          "price": 13.00
+        },
+        {
+          "name": "carrot ooty",
+          "type": "weight",
+          "price": 43.00
+        },
+        {
+          "name": "capsicum",
+          "type": "weight",
+          "price": 25.00
+        },
+        {
+          "name": "capsicum R&y",
+          "type": "weight",
+          "price": 65.00
+        },
+        {
+          "name": "cabbage red",
+          "type": "weight",
+          "price": 70.00
+        },
+        {
+          "name": "Avarekai",
+          "type": "weight",
+          "price": 44.00
+        },
+        {
+          "name": "baby corn cleaned",
+          "type": "weight",
+          "price": 93.00
+        },
+        {
+          "name": "chow chow",
+          "type": "weight",
+          "price": 26.00
+        },
+        {
+          "name": "coconut[B]",
+          "type": "numbers",
+          "price": 18.00
+        },
+        {
+          "name": "coconut[M]",
+          "type": "numbers",
+          "price": 15.00
+        },
+        {
+          "name": "coconut[s]",
+          "type": "numbers",
+          "price": 12.00
         }
       ]
     },
@@ -45,22 +140,53 @@
       "itemlist": [
         {
           "name": "Milk",
-          "type": "L",
+          "type": "Litre",
           "price": 34.00
         },
         {
           "name": "Curd",
-          "type": "L",
+          "type": "Litre",
           "price": 40.00
         },
         {
           "name": "ButterMilk",
-          "type": "L",
+          "type": "Litre",
           "price": 40.00
         }
       ]
     }
   ],
-  "weight" : [ "100g","200g","300g","400g","500g","600g","700g","800g","900g","1kg","1.5kg","2kg" ],
-  "Litre" : [ "1/2L", "1L", "1.5L","2L"]
+
+  "quantity": [
+    {
+      "type": "weight",
+      "value": [
+        "100g",
+        "200g",
+        "300g",
+        "400g",
+        "500g",
+        "600g",
+        "700g",
+        "800g",
+        "900g",
+        "1kg",
+        "1.5kg",
+        "2kg"
+      ]
+    },
+    {
+      "type": "Litre",
+      "value": [
+        "1/2L", "1L", "1.5L","2L"
+      ]
+    },
+    {
+      "type": "numbers",
+      "value": [
+        "1" , "2", "3", "4", "5"
+      ]
+    }]
+
+
 }
