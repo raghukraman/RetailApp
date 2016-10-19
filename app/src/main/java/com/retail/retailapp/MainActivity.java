@@ -1,15 +1,24 @@
 package com.retail.retailapp;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
-import com.retail.retailapp.com.retail.retailapp.vo.GroceryItem;
+import com.retail.retailapp.vo.GroceryItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +34,10 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     Spinner categoryspinner, itemlistspinner, weightspinner;
+    Button addButton;
+    LinearLayout content;
+    RelativeLayout rlayout;
+    TableLayout tblLayout;
     Map<String,List<GroceryItem>> groceryMap;
     Map<String,List<String>> quantityMap;
 
@@ -79,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         addListenerOnSpinnerCategorySelection();
         addListenerOnSpinnerItemSelection();
-//
+        init();
+        addListenerOnAddButton();
 
     }
 
@@ -93,6 +107,43 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
+    private Double getPrice(String CategoryName,String itemname,String quantity) {
+        Double price = null;
+        String type = null;
+        Double itemPrice=null;
+        List<GroceryItem> items = groceryMap.get(CategoryName);
+        for (GroceryItem gi: items) {
+            if (gi.getName().equals(itemname)) {
+               price = gi.getPrice();
+               type = gi.getType();
+            }
+        }
+
+        if (type.equalsIgnoreCase("Weight")) {
+            if (quantity.indexOf("kg") != -1) {
+                String val = quantity.substring(0,quantity.indexOf("kg"));
+                price = Double.parseDouble(val)*price;
+            }
+            else if (quantity.indexOf("g") != -1) {
+                String val = quantity.substring(0,quantity.indexOf("g"));
+                itemPrice = (Double.parseDouble(val)/1000)*price;
+            }
+        }
+        if (type.equalsIgnoreCase("Litre")) {
+            if (quantity.indexOf("L") != -1) {
+                String val = quantity.substring(0,quantity.indexOf("L"));
+                itemPrice = Double.parseDouble(val)*price;
+            }
+
+        }
+
+        if (type.equalsIgnoreCase("numbers")) {
+            itemPrice = price * Double.parseDouble(quantity);
+        }
+
+        return itemPrice;
+    }
+
     private List<String> getQuantityList(String CategoryName,String itemname) {
         List<String> quantityList = null;
         List<GroceryItem> items = groceryMap.get(CategoryName);
@@ -102,6 +153,83 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return quantityList;
+    }
+
+    private void addListenerOnAddButton(){
+        this.addButton = (Button)this.findViewById(R.id.add);
+        this.addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                content=(LinearLayout) findViewById(R.id.contentLayout);
+                int rowNumber = tblLayout.getChildCount();
+                TableRow tbrow = new TableRow(MainActivity.this);
+                TextView t1v = new TextView(MainActivity.this);
+                t1v.setText("" + rowNumber);
+                t1v.setTextColor(Color.BLACK);
+                t1v.setGravity(Gravity.CENTER);
+                tbrow.addView(t1v);
+
+                String category = categoryspinner.getItemAtPosition(categoryspinner.getSelectedItemPosition()).toString();
+
+                TextView textView1 = new TextView(getApplicationContext());
+                String itemValue = itemlistspinner.getItemAtPosition(itemlistspinner.getSelectedItemPosition()).toString();
+                textView1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                textView1.setTextColor(Color.BLACK);
+                textView1.setText(itemValue);
+                textView1.setPadding(1,1,1,1);
+                tbrow.addView(textView1);
+
+                TextView textView2 = new TextView(getApplicationContext());
+                String quantity = weightspinner.getItemAtPosition(weightspinner.getSelectedItemPosition()).toString();
+                textView2.setText(quantity);
+                textView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                textView2.setTextColor(Color.BLACK);
+                textView2.setPadding(1,1,1,1);
+                tbrow.addView(textView2);
+
+                TextView textView3 = new TextView(getApplicationContext());
+                textView3.setText(getPrice(category,itemValue,quantity).toString());
+                textView3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                textView3.setTextColor(Color.BLACK);
+                textView3.setPadding(1,1,1,1);
+                tbrow.addView(textView3);
+                tblLayout.addView(tbrow);
+            }
+        });
+
+    }
+
+
+    public void init() {
+        tblLayout = (TableLayout) findViewById(R.id.table_main);
+        TableRow tbrow0 = new TableRow(this);
+        TextView tv0 = new TextView(this);
+        tv0.setText(" Sl.No   ");
+        tv0.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        tv0.setTextColor(Color.BLACK);
+        tbrow0.addView(tv0);
+        TextView tv1 = new TextView(this);
+        tv1.setText(" Product                     ");
+        tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        tv1.setTextColor(Color.BLACK);
+        tbrow0.addView(tv1);
+        TextView tv2 = new TextView(this);
+        tv2.setText(" Unit            ");
+        tv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        tv2.setTextColor(Color.BLACK);
+        tbrow0.addView(tv2);
+
+        TextView tv3 = new TextView(this);
+        tv3.setText(" Price    ");
+        tv3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        tv3.setTextColor(Color.BLACK);
+        tbrow0.addView(tv3);
+
+
+        tblLayout.addView(tbrow0);
+//        tblLayout.addView(tbrow);
+//        }
+
     }
 
     public void addListenerOnSpinnerCategorySelection() {
@@ -182,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return json;
     }
+
 
 
 }
