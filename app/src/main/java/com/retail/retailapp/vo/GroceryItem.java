@@ -3,9 +3,6 @@ package com.retail.retailapp.vo;
 /**
  * Created by raghuramankumarasamy on 19/10/16.
  */
-/**
- * Created by raghuramankumarasamy on 14/10/16.
- */
 public class GroceryItem {
 
     private String name;
