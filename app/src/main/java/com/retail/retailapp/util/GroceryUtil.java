@@ -2,6 +2,8 @@ package com.retail.retailapp.util;
 
 import com.retail.retailapp.vo.GroceryItem;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +59,8 @@ public class GroceryUtil {
             itemPrice = price * Double.parseDouble(quantity);
         }
 
+        itemPrice = round(itemPrice.doubleValue(),2);
+
         return itemPrice;
     }
 
@@ -69,6 +73,14 @@ public class GroceryUtil {
             }
         }
         return quantityList;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 }

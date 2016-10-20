@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import com.retail.retailapp.vo.GroceryItem;
 import org.json.JSONException;
 
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -98,13 +100,43 @@ public class MainActivity extends AppCompatActivity {
                 tbrow.addView(textView2);
 
                 TextView textView3 = new TextView(getApplicationContext());
-                textView3.setText(GroceryUtil.getPrice(groceryMap, category, itemValue, quantity).toString());
+                double itemVal = GroceryUtil.getPrice(groceryMap, category, itemValue, quantity).doubleValue();
+                textView3.setText(new DecimalFormat("#.00").format(itemVal));
                 textView3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 textView3.setTextColor(Color.BLACK);
+                textView3.setGravity(Gravity.RIGHT);
                 textView3.setPadding(1, 1, 1, 1);
                 tbrow.addView(textView3);
+
+                Button btn = new Button(MainActivity.this);
+                btn.setText("X");
+                btn.setId(rowNumber);
+                TableRow.LayoutParams tlp = new TableRow.LayoutParams(100,52);
+                btn.setPadding(1,0,1,2);
+                btn.setLayoutParams(tlp);
+
+
+                btn.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // row is your row, the parent of the clicked button
+                        View row = (View) v.getParent();
+                        // container contains all the rows, you could keep a variable somewhere else to the container which you can refer to here
+                        ViewGroup container = ((ViewGroup)row.getParent());
+                        // delete the row and invalidate your view so it gets redrawn
+                        container.removeView(row);
+                        container.invalidate();
+                    }
+
+                });
+                tbrow.addView(btn);
+
                 tblLayout.addView(tbrow);
+
+
             }
+
         });
 
     }
@@ -134,6 +166,17 @@ public class MainActivity extends AppCompatActivity {
         tv3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         tv3.setTextColor(Color.BLACK);
         tbrow0.addView(tv3);
+
+        Button btn = new Button(MainActivity.this);
+        TableRow.LayoutParams tlp = new TableRow.LayoutParams(120,56);
+        btn.setPadding(10,7,0,2);
+        btn.setGravity(Gravity.TOP);
+        btn.setLayoutParams(tlp);
+        btn.setText("X-All");
+        btn.setId(0);
+
+//        btn.setLayoutParams(layoutParams);
+        tbrow0.addView(btn);
 
 
         tblLayout.addView(tbrow0);
