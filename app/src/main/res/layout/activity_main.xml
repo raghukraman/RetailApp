@@ -68,12 +68,14 @@
         android:textColor="#000000"
         />
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/weight"
         android:scrollbarStyle="outsideOverlay"
         android:fillViewport="true"
+        android:id="@+id/scrollid"
         >
 
     <TableLayout
@@ -83,10 +85,24 @@
         android:padding="1dip"
         android:layout_centerHorizontal="true"
         android:isScrollContainer="true"
+
         >
     </TableLayout>
+
+
     </ScrollView>
 
+    <Button android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:layout_gravity="right"
+        android:text="@string/save"
+        android:textColor="#000000"
+        android:onClick="saveItems"
+        />
 
     <!--<com.retail.retailapp.view.DynamicImageView-->
         <!--android:layout_width="wrap_content"-->

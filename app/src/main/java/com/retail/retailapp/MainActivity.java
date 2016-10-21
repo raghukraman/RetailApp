@@ -1,5 +1,6 @@
 package com.retail.retailapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -28,7 +30,10 @@ import com.retail.retailapp.vo.GroceryItem;
 import org.json.JSONException;
 
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout rlayout;
     TableLayout tblLayout;
     Map<String, List<GroceryItem>> groceryMap;
+    Map<String, List<GroceryItem>> selectedMap;
     Map<String, List<String>> quantityMap;
 
     Map<String, Map<String, Object>> masterMap;
@@ -50,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        selectedMap = new HashMap<>();
         itemloader = new GroceryItemLoaderImpl(getApplicationContext());
         try {
             masterMap = itemloader.load(GroceryConstant.GROCERYITEMS_JSON);
@@ -114,6 +121,15 @@ public class MainActivity extends AppCompatActivity {
                 TableRow.LayoutParams tlp = new TableRow.LayoutParams(100,52);
                 btn.setPadding(1,0,1,2);
                 btn.setLayoutParams(tlp);
+
+                if (selectedMap.get(category) != null) {
+                    List<GroceryItem> items = selectedMap.get(category);
+                    items.add(new GroceryItem(itemValue,itemVal,quantity));
+                } else {
+                    List<GroceryItem> newList = new ArrayList<GroceryItem>();
+                    newList.add(new GroceryItem(itemValue,itemVal,quantity));
+                    selectedMap.put(category,newList);
+                }
 
 
                 btn.setOnClickListener(new View.OnClickListener() {
@@ -235,6 +251,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    /** Called when the user clicks the Send button */
+    public void saveItems(View view) {
+        Intent intent = new Intent(this, ShoppingListActivity.class);
+        intent.putExtra("shoppinglist", (Serializable) selectedMap);
+        startActivity(intent);
+        // Do something in response to button
     }
 
 
