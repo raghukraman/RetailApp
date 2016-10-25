@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Retail-App1</string>
+    <string name="app_name">Retail-App-Version 1.0</string>
     <string name="lbl">Text</string>
     <string name="category_lbl">Category:</string>
     <string name="category_prompt">Choose a Category</string>

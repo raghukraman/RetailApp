@@ -25,22 +25,34 @@ public class GroceryUtil {
         return list;
     }
 
-    public static Double getPrice(Map<String,List<GroceryItem>> groceryMap,String CategoryName,String itemname,String quantity) {
+    public static GroceryItem getUnitPrice(Map<String,List<GroceryItem>> groceryMap,String CategoryName,String itemname) {
         Double price = null;
         String type = null;
-        Double itemPrice=null;
+        Double unitPrice=null;
+        GroceryItem item = null;
         List<GroceryItem> items = groceryMap.get(CategoryName);
         for (GroceryItem gi: items) {
             if (gi.getName().equals(itemname)) {
                 price = gi.getPrice();
                 type = gi.getType();
+                item = new GroceryItem(itemname,price,type);
+                break;
             }
         }
+        return item;
+    }
+
+    public static Double getPrice(Map<String,List<GroceryItem>> groceryMap,String CategoryName,String itemname,String quantity) {
+        GroceryItem item = getUnitPrice(groceryMap,CategoryName,itemname);
+        String type = item.getType();
+        Double itemPrice=null;
+        Double price=item.getPrice();
+
 
         if (type.equalsIgnoreCase("Weight")) {
             if (quantity.indexOf("kg") != -1) {
                 String val = quantity.substring(0,quantity.indexOf("kg"));
-                price = Double.parseDouble(val)*price;
+                itemPrice = Double.parseDouble(val)*price;
             }
             else if (quantity.indexOf("g") != -1) {
                 String val = quantity.substring(0,quantity.indexOf("g"));

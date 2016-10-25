@@ -26,6 +26,7 @@ import com.retail.retailapp.dataloader.GroceryItemLoaderImpl;
 import com.retail.retailapp.util.GroceryConstant;
 import com.retail.retailapp.util.GroceryUtil;
 import com.retail.retailapp.vo.GroceryItem;
+import com.retail.retailapp.vo.PurchaseItem;
 
 import org.json.JSONException;
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout rlayout;
     TableLayout tblLayout;
     Map<String, List<GroceryItem>> groceryMap;
-    Map<String, List<GroceryItem>> selectedMap;
+    Map<String, List<PurchaseItem>> selectedMap;
     Map<String, List<String>> quantityMap;
 
     Map<String, Map<String, Object>> masterMap;
@@ -91,10 +92,10 @@ public class MainActivity extends AppCompatActivity {
                 String category = categoryspinner.getItemAtPosition(categoryspinner.getSelectedItemPosition()).toString();
 
                 TextView textView1 = new TextView(getApplicationContext());
-                String itemValue = itemlistspinner.getItemAtPosition(itemlistspinner.getSelectedItemPosition()).toString();
+                String productName = itemlistspinner.getItemAtPosition(itemlistspinner.getSelectedItemPosition()).toString();
                 textView1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 textView1.setTextColor(Color.BLACK);
-                textView1.setText(itemValue);
+                textView1.setText(productName);
                 textView1.setPadding(1, 1, 1, 1);
                 tbrow.addView(textView1);
 
@@ -107,8 +108,11 @@ public class MainActivity extends AppCompatActivity {
                 tbrow.addView(textView2);
 
                 TextView textView3 = new TextView(getApplicationContext());
-                double itemVal = GroceryUtil.getPrice(groceryMap, category, itemValue, quantity).doubleValue();
-                textView3.setText(new DecimalFormat("#.00").format(itemVal));
+                GroceryItem gItem = GroceryUtil.getUnitPrice(groceryMap,category,productName);
+                Double unitPrice = gItem.getPrice();
+                String type = gItem.getType();
+                double productPrice = GroceryUtil.getPrice(groceryMap, category, productName, quantity).doubleValue();
+                textView3.setText(new DecimalFormat("#.00").format(productPrice));
                 textView3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 textView3.setTextColor(Color.BLACK);
                 textView3.setGravity(Gravity.RIGHT);
@@ -123,11 +127,12 @@ public class MainActivity extends AppCompatActivity {
                 btn.setLayoutParams(tlp);
 
                 if (selectedMap.get(category) != null) {
-                    List<GroceryItem> items = selectedMap.get(category);
-                    items.add(new GroceryItem(itemValue,itemVal,quantity));
+                    List<PurchaseItem> items = selectedMap.get(category);
+
+                    items.add(new PurchaseItem(productName,unitPrice,productPrice,quantity,type));
                 } else {
-                    List<GroceryItem> newList = new ArrayList<GroceryItem>();
-                    newList.add(new GroceryItem(itemValue,itemVal,quantity));
+                    List<PurchaseItem> newList = new ArrayList<>();
+                    newList.add(new PurchaseItem(productName,unitPrice,productPrice,quantity,type));
                     selectedMap.put(category,newList);
                 }
 
@@ -188,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setPadding(10,7,0,2);
         btn.setGravity(Gravity.TOP);
         btn.setLayoutParams(tlp);
-        btn.setText("X-All");
+        btn.setText(" X-All");
         btn.setId(0);
 
 //        btn.setLayoutParams(layoutParams);
