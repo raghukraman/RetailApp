@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
 
+    </style>
+    <style name="SpinnerTextViewItem" parent="@android:style/Widget.TextView" >
+        <item name="android:textSize" >16dp</item>
+        <item name="android:textStyle" >normal</item>
+    </style>
 </resources>

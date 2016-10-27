@@ -1,7 +1,9 @@
 package com.retail.retailapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     Map<String, List<GroceryItem>> groceryMap;
     Map<String, List<PurchaseItem>> selectedMap;
     Map<String, List<String>> quantityMap;
+    private Typeface myFont;
 
     Map<String, Map<String, Object>> masterMap;
 
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         selectedMap = new HashMap<>();
         itemloader = new GroceryItemLoaderImpl(getApplicationContext());
         try {
@@ -68,25 +74,46 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         setContentView(R.layout.activity_main);
-        addListenerOnSpinnerCategorySelection();
-        addListenerOnSpinnerItemSelection();
-        init();
-        addListenerOnAddButton();
+        /* Set the Font Verdana for Category */
+        TextView tv = (TextView) findViewById(R.id.category_lbl);
+        Typeface face = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
+        tv.setTypeface(face, Typeface.NORMAL);
+        loadCategories(groceryMap); //load the categories spinner
+        addListenerOnSpinnerCategorySelection(); //event listener for Categories spinner
+        addListenerOnSpinnerItemSelection(); //event listener for Items spinner
+        init();  //Initialize the table layout with the headings
+        addListenerOnAddButton(); //Listener for the add button
+    }
+
+
+    private void loadCategories(Map<String, List<GroceryItem>> groceryMap) {
+        categoryspinner = (Spinner) findViewById(R.id.category);
+        List<String> categories = GroceryUtil.getCategories(groceryMap);//get the sorted spinner list categories
+        MySpinnerAdapter adapter = new MySpinnerAdapter(
+                MainActivity.this,
+                R.layout.spinner_item_text,
+                categories
+        );
+        categoryspinner.setAdapter(adapter);
     }
 
 
     private void addListenerOnAddButton() {
         this.addButton = (Button) this.findViewById(R.id.add);
+
         this.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                content=(LinearLayout) findViewById(R.id.contentLayout);
+                Typeface face = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
+
                 int rowNumber = tblLayout.getChildCount();
                 TableRow tbrow = new TableRow(MainActivity.this);
                 TextView t1v = new TextView(MainActivity.this);
                 t1v.setText("" + rowNumber);
                 t1v.setTextColor(Color.BLACK);
                 t1v.setGravity(Gravity.CENTER);
+                t1v.setTypeface(face);
                 tbrow.addView(t1v);
 
                 String category = categoryspinner.getItemAtPosition(categoryspinner.getSelectedItemPosition()).toString();
@@ -97,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 textView1.setTextColor(Color.BLACK);
                 textView1.setText(productName);
                 textView1.setPadding(1, 1, 1, 1);
+                textView1.setTypeface(face);
                 tbrow.addView(textView1);
 
                 TextView textView2 = new TextView(getApplicationContext());
@@ -105,10 +133,11 @@ public class MainActivity extends AppCompatActivity {
                 textView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 textView2.setTextColor(Color.BLACK);
                 textView2.setPadding(1, 1, 1, 1);
+                textView2.setTypeface(face);
                 tbrow.addView(textView2);
 
                 TextView textView3 = new TextView(getApplicationContext());
-                GroceryItem gItem = GroceryUtil.getUnitPrice(groceryMap,category,productName);
+                GroceryItem gItem = GroceryUtil.getUnitPrice(groceryMap, category, productName);
                 Double unitPrice = gItem.getPrice();
                 String type = gItem.getType();
                 double productPrice = GroceryUtil.getPrice(groceryMap, category, productName, quantity).doubleValue();
@@ -117,25 +146,24 @@ public class MainActivity extends AppCompatActivity {
                 textView3.setTextColor(Color.BLACK);
                 textView3.setGravity(Gravity.RIGHT);
                 textView3.setPadding(1, 1, 1, 1);
+                textView3.setTypeface(face);
                 tbrow.addView(textView3);
 
                 Button btn = new Button(MainActivity.this);
                 btn.setText("X");
                 btn.setId(rowNumber);
-                TableRow.LayoutParams tlp = new TableRow.LayoutParams(100,52);
-                btn.setPadding(1,0,1,2);
+                TableRow.LayoutParams tlp = new TableRow.LayoutParams(100, 52);
+                btn.setPadding(1, 0, 1, 2);
                 btn.setLayoutParams(tlp);
 
                 if (selectedMap.get(category) != null) {
                     List<PurchaseItem> items = selectedMap.get(category);
-
-                    items.add(new PurchaseItem(productName,unitPrice,productPrice,quantity,type));
+                    items.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type));
                 } else {
                     List<PurchaseItem> newList = new ArrayList<>();
-                    newList.add(new PurchaseItem(productName,unitPrice,productPrice,quantity,type));
-                    selectedMap.put(category,newList);
+                    newList.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type));
+                    selectedMap.put(category, newList);
                 }
-
 
                 btn.setOnClickListener(new View.OnClickListener() {
 
@@ -144,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                         // row is your row, the parent of the clicked button
                         View row = (View) v.getParent();
                         // container contains all the rows, you could keep a variable somewhere else to the container which you can refer to here
-                        ViewGroup container = ((ViewGroup)row.getParent());
+                        ViewGroup container = ((ViewGroup) row.getParent());
                         // delete the row and invalidate your view so it gets redrawn
                         container.removeView(row);
                         container.invalidate();
@@ -165,32 +193,37 @@ public class MainActivity extends AppCompatActivity {
 
     public void init() {
         tblLayout = (TableLayout) findViewById(R.id.table_main);
+        Typeface face = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
         TableRow tbrow0 = new TableRow(this);
         TextView tv0 = new TextView(this);
         tv0.setText(GroceryConstant.SL_NO);
         tv0.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         tv0.setTextColor(Color.BLACK);
+        tv0.setTypeface(face);
         tbrow0.addView(tv0);
         TextView tv1 = new TextView(this);
         tv1.setText(GroceryConstant.PRODUCT);
         tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         tv1.setTextColor(Color.BLACK);
+        tv1.setTypeface(face);
         tbrow0.addView(tv1);
         TextView tv2 = new TextView(this);
         tv2.setText(GroceryConstant.UNIT);
         tv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         tv2.setTextColor(Color.BLACK);
+        tv2.setTypeface(face);
         tbrow0.addView(tv2);
 
         TextView tv3 = new TextView(this);
         tv3.setText(GroceryConstant.PRICE);
         tv3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         tv3.setTextColor(Color.BLACK);
+        tv3.setTypeface(face);
         tbrow0.addView(tv3);
 
         Button btn = new Button(MainActivity.this);
-        TableRow.LayoutParams tlp = new TableRow.LayoutParams(120,56);
-        btn.setPadding(10,7,0,2);
+        TableRow.LayoutParams tlp = new TableRow.LayoutParams(120, 56);
+        btn.setPadding(10, 7, 0, 2);
         btn.setGravity(Gravity.TOP);
         btn.setLayoutParams(tlp);
         btn.setText(" X-All");
@@ -216,9 +249,12 @@ public class MainActivity extends AppCompatActivity {
                 String categoryName = categoryspinner.getItemAtPosition(categoryspinner.getSelectedItemPosition()).toString();
 
                 List<String> items = GroceryUtil.getItemList(groceryMap, categoryName);
-                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, items);
-                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                itemlistspinner.setAdapter(adapter1);
+                MySpinnerAdapter adapter = new MySpinnerAdapter(
+                        MainActivity.this,
+                        R.layout.spinner_item_text,
+                        items
+                );
+                itemlistspinner.setAdapter(adapter);
 
                 System.out.println("Selected value :=" + categoryName);
                 System.out.println("Id is :=" + id);
@@ -246,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
 
                 weightspinner = (Spinner) findViewById(R.id.weight);
                 List<String> quantityList = GroceryUtil.getQuantityList(groceryMap, quantityMap, categoryName, itemName);
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, quantityList);
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item_text, quantityList);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 weightspinner.setAdapter(adapter2);
             }
@@ -259,7 +295,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /** Called when the user clicks the Send button */
+    /**
+     * Called when the user clicks the Send button
+     */
     public void saveItems(View view) {
         Intent intent = new Intent(this, ShoppingListActivity.class);
         intent.putExtra("shoppinglist", (Serializable) selectedMap);
@@ -268,6 +306,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+    /* This is only for setting the font inside the spinner -- Font Verdana from assets folder */
+
+    private static class MySpinnerAdapter extends ArrayAdapter<String> {
+        // Initialise custom font, for example:
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(),
+                GroceryConstant.FONTS_VERDANA_TTF);
+
+        // (In reality I used a manager which caches the Typeface objects)
+        // Typeface font = FontManager.getInstance().getFont(getContext(), BLAMBOT);
+
+        private MySpinnerAdapter(Context context, int resource, List<String> items) {
+            super(context, resource, items);
+        }
+
+        // Affects default (closed) state of the spinner
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView view = (TextView) super.getView(position, convertView, parent);
+            view.setTypeface(font);
+            return view;
+        }
+
+        // Affects opened state of the spinner
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+            view.setTypeface(font);
+            return view;
+        }
+    }
 
 
 }

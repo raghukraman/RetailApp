@@ -5,6 +5,8 @@ import com.retail.retailapp.vo.GroceryItem;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -74,6 +76,18 @@ public class GroceryUtil {
         itemPrice = round(itemPrice.doubleValue(),2);
 
         return itemPrice;
+    }
+
+
+    public static List<String> getCategories(Map<String,List<GroceryItem>> groceryMap) {
+        List<String> categories= new ArrayList<>();
+        Iterator it = groceryMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            categories.add(pair.getKey().toString());
+        }
+        Collections.sort(categories);
+        return categories;
     }
 
     public static List<String> getQuantityList(Map<String,List<GroceryItem>> groceryMap,Map<String,List<String>> quantityMap,String CategoryName,String itemname) {
