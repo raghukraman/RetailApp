@@ -1,17 +1,12 @@
-package com.retail.retailapp.com.retail.retailapp.listener;
+package com.retail.retailapp.listeners;
 
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import android.widget.Spinner;
 
-import com.retail.retailapp.MainActivity;
 import com.retail.retailapp.R;
-
-import java.util.List;
 
 /**
  * Created by raghuramankumarasamy on 14/10/16.

@@ -154,6 +154,26 @@
           "price": 40.00
         }
       ]
+    },
+    {
+      "category": "Bakery",
+      "itemlist": [
+        {
+          "name": "Bread-Wheat",
+          "type": "numbers",
+          "price": 30.00
+        },
+        {
+          "name": "Cake",
+          "type": "numbers",
+          "price": 20.00
+        },
+        {
+          "name": "Bread-sweet",
+          "type": "numbers",
+          "price": 30.00
+        }
+      ]
     }
   ],
 
@@ -162,12 +182,15 @@
       "type": "weight",
       "value": [
         "100g",
+        "150g",
         "200g",
+        "250g",
         "300g",
         "400g",
         "500g",
         "600g",
         "700g",
+        "750g",
         "800g",
         "900g",
         "1kg",
@@ -178,7 +201,7 @@
     {
       "type": "Litre",
       "value": [
-        "1/2L", "1L", "1.5L","2L"
+        "0.5L", "1L", "1.5L","2L"
       ]
     },
     {

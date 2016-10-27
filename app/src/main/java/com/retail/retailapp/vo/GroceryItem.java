@@ -1,9 +1,9 @@
-package com.retail.retailapp.com.retail.retailapp.vo;
+package com.retail.retailapp.vo;
 
 /**
- * Created by raghuramankumarasamy on 14/10/16.
+ * Created by raghuramankumarasamy on 19/10/16.
  */
-public class GroceryItem {
+public class GroceryItem implements  java.io.Serializable {
 
     private String name;
     private Double price;

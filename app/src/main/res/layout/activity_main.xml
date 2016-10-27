@@ -7,6 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:id="@+id/rlayout"
     tools:context="com.retail.retailapp.MainActivity">
 
     <TextView
@@ -16,20 +18,21 @@
         android:layout_gravity="center_vertical"
         android:text="@string/category_lbl"
         android:layout_alignParentTop="true"
+        android:textColor="#000000"
+        android:textSize="16sp"
         />
 
     <Spinner
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/category"
-        android:entries="@array/category"
         android:prompt="@string/category_prompt"
         android:layout_alignBaseline="@id/category_lbl"
         android:layout_toRightOf="@id/category_lbl"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="16dp">
+        android:gravity="left"
+        android:layout_gravity="right"
+        >
     </Spinner>
 
     <Spinner
@@ -39,22 +42,85 @@
         android:prompt="@string/category_prompt"
         android:layout_gravity="left"
         android:layout_marginTop="30dp"
-        android:layout_weight="0.7"
+        android:layout_weight="0.5"
          >
     </Spinner>
 
     <Spinner
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/weight"
     android:prompt="@string/category_prompt"
-    android:layout_gravity="center_vertical"
+    android:layout_gravity="right"
     android:layout_marginTop="30dp"
-        android:layout_toRightOf="@id/list"
-        android:layout_weight="0.3"
+    android:layout_toRightOf="@id/list"
          >
+    </Spinner>
+
+    <Button android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/weight"
+        android:layout_alignBottom="@id/weight"
+        android:gravity="center"
+        android:text="@string/add"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:padding="0.3dip"
+        />
 
 
-</Spinner>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/weight"
+        android:scrollbarStyle="outsideOverlay"
+        android:fillViewport="true"
+        android:id="@+id/scrollid"
+        >
+
+    <TableLayout
+        android:id="@+id/table_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="1dip"
+        android:layout_centerHorizontal="true"
+        android:isScrollContainer="true"
+
+        >
+    </TableLayout>
+
+
+    </ScrollView>
+
+    <Button android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:layout_gravity="right"
+        android:text="@string/save"
+        android:textColor="#000000"
+        android:onClick="saveItems"
+        />
+
+    <!--<com.retail.retailapp.view.DynamicImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:src="@drawable/ic_add_button"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignBottom="@id/weight"-->
+        <!--android:layout_alignTop="@id/weight"-->
+        <!--android:scaleType="fitXY"-->
+
+        <!--/>-->
+
+
+
+
+
 
 </RelativeLayout>
