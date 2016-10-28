@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     Spinner categoryspinner, itemlistspinner, weightspinner;
     Button addButton;
+    ImageView addButtonImage;
     LinearLayout content;
     RelativeLayout rlayout;
     TableLayout tblLayout;
@@ -99,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void addListenerOnAddButton() {
-        this.addButton = (Button) this.findViewById(R.id.add);
+        this.addButtonImage = (ImageView) this.findViewById(R.id.add_btn_image);
 
-        this.addButton.setOnClickListener(new View.OnClickListener() {
+        this.addButtonImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                content=(LinearLayout) findViewById(R.id.contentLayout);
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 textView1.setText(productName);
                 textView1.setPadding(1, 1, 1, 1);
                 textView1.setTypeface(face);
+                textView1.setWidth(230);
                 tbrow.addView(textView1);
 
                 TextView textView2 = new TextView(getApplicationContext());
@@ -146,15 +149,17 @@ public class MainActivity extends AppCompatActivity {
                 textView3.setTextColor(Color.BLACK);
                 textView3.setGravity(Gravity.RIGHT);
                 textView3.setPadding(1, 1, 1, 1);
+                textView3.setPadding(0,0,40,0);
                 textView3.setTypeface(face);
                 tbrow.addView(textView3);
 
-                Button btn = new Button(MainActivity.this);
-                btn.setText("X");
-                btn.setId(rowNumber);
-                TableRow.LayoutParams tlp = new TableRow.LayoutParams(100, 52);
-                btn.setPadding(1, 0, 1, 2);
-                btn.setLayoutParams(tlp);
+                ImageView image = new ImageView(MainActivity.this);
+                image.setImageResource(R.drawable.cross_mark);
+                image.setId(rowNumber);
+                TableRow.LayoutParams tlp = new TableRow.LayoutParams(50, 52);
+                image.setPadding(1, 0, 1, 2);
+                image.setLayoutParams(tlp);
+
 
                 if (selectedMap.get(category) != null) {
                     List<PurchaseItem> items = selectedMap.get(category);
@@ -165,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedMap.put(category, newList);
                 }
 
-                btn.setOnClickListener(new View.OnClickListener() {
+                image.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
@@ -179,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 });
-                tbrow.addView(btn);
+                tbrow.addView(image);
 
                 tblLayout.addView(tbrow);
 
@@ -206,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
         tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         tv1.setTextColor(Color.BLACK);
         tv1.setTypeface(face);
+        tv1.setWidth(230);
         tbrow0.addView(tv1);
         TextView tv2 = new TextView(this);
         tv2.setText(GroceryConstant.UNIT);
@@ -218,19 +224,27 @@ public class MainActivity extends AppCompatActivity {
         tv3.setText(GroceryConstant.PRICE);
         tv3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         tv3.setTextColor(Color.BLACK);
+        tv3.setPadding(0,0,40,0);  //set some space after the price column
         tv3.setTypeface(face);
         tbrow0.addView(tv3);
 
-        Button btn = new Button(MainActivity.this);
-        TableRow.LayoutParams tlp = new TableRow.LayoutParams(120, 56);
-        btn.setPadding(10, 7, 0, 2);
-        btn.setGravity(Gravity.TOP);
-        btn.setLayoutParams(tlp);
-        btn.setText(" X-All");
-        btn.setId(0);
+//        Button btn = new Button(MainActivity.this);
+//        TableRow.LayoutParams tlp = new TableRow.LayoutParams(120, 56);
+//        btn.setPadding(10, 7, 0, 2);
+//        btn.setGravity(Gravity.TOP);
+//        btn.setLayoutParams(tlp);
+//        btn.setText(" X-All");
+//        btn.setId(0);
+
+        ImageView image = new ImageView(MainActivity.this);
+        image.setImageResource(R.drawable.cross_mark);
+        TableRow.LayoutParams tlp = new TableRow.LayoutParams(50, 52);
+        image.setPadding(1, 0, 1, 2);
+        image.setLayoutParams(tlp);
+        image.setId(0);
 
 //        btn.setLayoutParams(layoutParams);
-        tbrow0.addView(btn);
+        tbrow0.addView(image);
 
 
         tblLayout.addView(tbrow0);
