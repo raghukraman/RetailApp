@@ -35,14 +35,14 @@
         >
     </Spinner>
 
+
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:id="@+id/list"
         android:prompt="@string/category_prompt"
         android:layout_gravity="left"
         android:layout_marginTop="30dp"
-        android:layout_weight="0.5"
          >
     </Spinner>
 
@@ -57,17 +57,17 @@
          >
     </Spinner>
 
-    <Button android:id="@+id/add"
+
+
+    <ImageView
+        android:id="@+id/add_btn_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_btn"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/weight"
+        android:layout_alignTop="@+id/weight"
         android:layout_alignBottom="@id/weight"
-        android:gravity="center"
-        android:text="@string/add"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:padding="0.3dip"
+        android:layout_toRightOf="@id/weight"
         />
 
 
