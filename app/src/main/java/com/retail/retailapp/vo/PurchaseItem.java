@@ -7,11 +7,13 @@ public class PurchaseItem extends GroceryItem {
 
     private String quantity;
     private Double itemPrice;
+    private String itemKey;
 
-    public PurchaseItem(String name, Double price, Double itemPrice, String quantity,String type) {
+    public PurchaseItem(String name, Double price, Double itemPrice, String quantity, String type, String itemKey) {
         super(name,price,type);
         this.itemPrice=itemPrice;
         this.quantity=quantity;
+        this.itemKey = itemKey;
     }
 
     public String getQuantity() {
@@ -20,6 +22,10 @@ public class PurchaseItem extends GroceryItem {
 
     public Double getItemPrice() {
         return itemPrice;
+    }
+
+    public String getItemKey() {
+        return itemKey;
     }
 
 

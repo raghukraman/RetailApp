@@ -8,16 +8,89 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.retail.retailapp.ShoppingListActivity">
-
-    <TableLayout
-        android:id="@+id/table_shopping_list"
+    <ScrollView
+        android:id="@+id/scrollid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="1dip"
+        android:layout_below="@id/weight"
+        android:fillViewport="true"
+        android:scrollbarStyle="outsideOverlay">
+    <TableLayout
+        android:id="@+id/table_shopping_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:isScrollContainer="true"
+        android:padding="1dip"
 
         >
     </TableLayout>
+    </ScrollView>
+    <!--<Button android:id="@+id/edit"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:textSize="8pt"-->
+    <!--android:text="@string/modify"-->
+    <!--android:textAllCaps="false"-->
+    <!--android:textColor="#000000"-->
+    <!--android:shadowColor="#7EFF29"-->
+    <!--android:background="#B2FF96"-->
+    <!--android:shadowDx="1"-->
+    <!--android:shadowDy="1"-->
+    <!--android:textStyle="bold"-->
+    <!--android:onClick="modifyItems"-->
+    <!--/>-->
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="#B2FF96"
+            android:onClick="modifyItems"
+            android:shadowColor="#7EFF29"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:text="@string/modify"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="8pt"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/total1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/amount"
+            android:text="@string/total"
+            android:textColor="#085EF2"
+            android:textSize="12pt" />
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="#400649"
+            android:textSize="12pt" />
+    </RelativeLayout>
+
+    <!--<Button android:id="@+id/edit"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:textSize="8pt"-->
+    <!--android:text="@string/modify"-->
+    <!--android:textAllCaps="false"-->
+    <!--android:textColor="#3B7D09"-->
+    <!--android:onClick="modifyItems"-->
+    <!--/>-->
+
 
 </RelativeLayout>

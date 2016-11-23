@@ -4,23 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -34,13 +31,13 @@ import com.retail.retailapp.vo.PurchaseItem;
 
 import org.json.JSONException;
 
-
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,17 +45,28 @@ public class MainActivity extends AppCompatActivity {
     Spinner categoryspinner, itemlistspinner, weightspinner;
     Button addButton;
     ImageView addButtonImage;
+    TextView totalAmountText;
     LinearLayout content;
     RelativeLayout rlayout;
     TableLayout tblLayout;
     Map<String, List<GroceryItem>> groceryMap;
     Map<String, List<PurchaseItem>> selectedMap;
     Map<String, List<String>> quantityMap;
+    Map<String, Map<String, Object>> masterMap;
+    GroceryItemLoader itemloader;
     private Typeface myFont;
 
-    Map<String, Map<String, Object>> masterMap;
-
-    GroceryItemLoader itemloader;
+    public static String random() {
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(5);
+        char tempChar;
+        for (int i = 0; i < randomLength; i++) {
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+        return randomStringBuilder.toString();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         addListenerOnAddButton(); //Listener for the add button
     }
 
-
     private void loadCategories(Map<String, List<GroceryItem>> groceryMap) {
         categoryspinner = (Spinner) findViewById(R.id.category);
         List<String> categories = GroceryUtil.getCategories(groceryMap);//get the sorted spinner list categories
@@ -99,11 +106,11 @@ public class MainActivity extends AppCompatActivity {
         categoryspinner.setAdapter(adapter);
     }
 
-
     private void addListenerOnAddButton() {
         this.addButtonImage = (ImageView) this.findViewById(R.id.add_btn_image);
 
         this.addButtonImage.setOnClickListener(new View.OnClickListener() {
+            double totalPrice = 0;
             @Override
             public void onClick(View v) {
 //                content=(LinearLayout) findViewById(R.id.contentLayout);
@@ -118,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 t1v.setTypeface(face);
                 tbrow.addView(t1v);
 
-                String category = categoryspinner.getItemAtPosition(categoryspinner.getSelectedItemPosition()).toString();
+                final String category = categoryspinner.getItemAtPosition(categoryspinner.getSelectedItemPosition()).toString();
 
                 TextView textView1 = new TextView(getApplicationContext());
                 String productName = itemlistspinner.getItemAtPosition(itemlistspinner.getSelectedItemPosition()).toString();
@@ -143,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 GroceryItem gItem = GroceryUtil.getUnitPrice(groceryMap, category, productName);
                 Double unitPrice = gItem.getPrice();
                 String type = gItem.getType();
-                double productPrice = GroceryUtil.getPrice(groceryMap, category, productName, quantity).doubleValue();
+                final double productPrice = GroceryUtil.getPrice(groceryMap, category, productName, quantity).doubleValue();
                 textView3.setText(new DecimalFormat("#.00").format(productPrice));
                 textView3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 textView3.setTextColor(Color.BLACK);
@@ -163,10 +170,12 @@ public class MainActivity extends AppCompatActivity {
 
                 if (selectedMap.get(category) != null) {
                     List<PurchaseItem> items = selectedMap.get(category);
-                    items.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type));
+                    String purchaseId = random();
+                    items.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type, purchaseId));
                 } else {
                     List<PurchaseItem> newList = new ArrayList<>();
-                    newList.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type));
+                    String purchaseId = random();
+                    newList.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type, purchaseId));
                     selectedMap.put(category, newList);
                 }
 
@@ -179,12 +188,28 @@ public class MainActivity extends AppCompatActivity {
                         // container contains all the rows, you could keep a variable somewhere else to the container which you can refer to here
                         ViewGroup container = ((ViewGroup) row.getParent());
                         // delete the row and invalidate your view so it gets redrawn
+                        TableRow tbRow = (TableRow) row;
+                        TextView textView = (TextView) tbRow.getChildAt(3);
+                        double rowPrice = Double.valueOf(textView.getText().toString()).doubleValue();
+                        totalPrice = totalPrice - rowPrice;
                         container.removeView(row);
+                        totalAmountText.setText(new DecimalFormat("#.00").format(totalPrice));
                         container.invalidate();
+                        List<PurchaseItem> purchageList = selectedMap.get(category);
+                        String itemKey = purchageList.get(purchageList.size() - 1).getItemKey();
+                        if (purchageList.get(purchageList.size() - 1).getItemKey().equals(itemKey)) {
+                            purchageList.remove(purchageList.size() - 1);
+                            selectedMap.put(category, purchageList);
+                        }
+
                     }
 
                 });
                 tbrow.addView(image);
+                //Below will caluclate  and set the total amount for textView
+                totalAmountText = (TextView) findViewById(R.id.amount);
+                totalPrice = totalPrice + productPrice;
+                totalAmountText.setText(new DecimalFormat("#.00").format(totalPrice));
 
                 tblLayout.addView(tbrow);
 
@@ -194,7 +219,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
 
     public void init() {
         tblLayout = (TableLayout) findViewById(R.id.table_main);
@@ -281,7 +305,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     public void addListenerOnSpinnerItemSelection() {
 
         itemlistspinner = (Spinner) findViewById(R.id.list);
@@ -309,6 +332,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+    /* This is only for setting the font inside the spinner -- Font Verdana from assets folder */
+
     /**
      * Called when the user clicks the Send button
      */
@@ -318,10 +344,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         // Do something in response to button
     }
-
-
-
-    /* This is only for setting the font inside the spinner -- Font Verdana from assets folder */
 
     private static class MySpinnerAdapter extends ArrayAdapter<String> {
         // Initialise custom font, for example:
@@ -351,6 +373,5 @@ public class MainActivity extends AppCompatActivity {
             return view;
         }
     }
-
 
 }
