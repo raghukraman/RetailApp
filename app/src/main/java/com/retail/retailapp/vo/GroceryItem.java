@@ -6,7 +6,7 @@ package com.retail.retailapp.vo;
 public class GroceryItem implements  java.io.Serializable {
 
     private String name;
-    private Double price;
+    private Double price; //unit price
     private String type;
 
 

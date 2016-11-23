@@ -22,6 +22,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.retail.retailapp.database.DBHandler;
 import com.retail.retailapp.dataloader.GroceryItemLoader;
 import com.retail.retailapp.dataloader.GroceryItemLoaderImpl;
 import com.retail.retailapp.util.GroceryConstant;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     Map<String, Map<String, Object>> masterMap;
     GroceryItemLoader itemloader;
     private Typeface myFont;
+    DBHandler dbHandler;
 
     public static String random() {
         Random generator = new Random();
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        dbHandler = new DBHandler(this);
 
         selectedMap = new HashMap<>();
         itemloader = new GroceryItemLoaderImpl(getApplicationContext());
@@ -171,11 +173,11 @@ public class MainActivity extends AppCompatActivity {
                 if (selectedMap.get(category) != null) {
                     List<PurchaseItem> items = selectedMap.get(category);
                     String purchaseId = random();
-                    items.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type, purchaseId));
+                    items.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type, purchaseId,false));
                 } else {
                     List<PurchaseItem> newList = new ArrayList<>();
                     String purchaseId = random();
-                    newList.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type, purchaseId));
+                    newList.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type, purchaseId,falsex));
                     selectedMap.put(category, newList);
                 }
 
@@ -339,10 +341,10 @@ public class MainActivity extends AppCompatActivity {
      * Called when the user clicks the Send button
      */
     public void saveItems(View view) {
-        Intent intent = new Intent(this, ShoppingListActivity.class);
-        intent.putExtra("shoppinglist", (Serializable) selectedMap);
+        Intent intent = new Intent(this, FetchSavedListActivity.class);
+        String orderNumber=dbHandler.createOrder(selectedMap);
+        intent.putExtra("orderNumber",orderNumber);
         startActivity(intent);
-        // Do something in response to button
     }
 
     private static class MySpinnerAdapter extends ArrayAdapter<String> {
