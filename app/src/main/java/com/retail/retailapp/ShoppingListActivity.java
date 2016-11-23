@@ -23,11 +23,13 @@ import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class ShoppingListActivity extends AppCompatActivity {
 
     TableLayout tblLayout;
     TextView totalAmountText;
+    CheckBox productSpaceCheckBox;
     double totalPrice = 0;
     Spinner categoryspinner, itemlistspinner, weightspinner;
 
@@ -40,6 +42,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         Map<String, List<PurchaseItem>> data_map = (Map<String, List<PurchaseItem>>) caller.getExtras().get("shoppinglist");
         init_table_layout();
         load_table(data_map);
+
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -62,6 +65,7 @@ public class ShoppingListActivity extends AppCompatActivity {
                 checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 checkBox.setTextColor(Color.BLACK);
                 checkBox.setText(purchaseItem.getName());
+                checkBox.setId(new Random().nextInt());
                 checkBox.setPadding(1, 1, 1, 1);
                 Typeface tf = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
                 checkBox.setTypeface(tf, Typeface.NORMAL);
@@ -118,6 +122,43 @@ public class ShoppingListActivity extends AppCompatActivity {
 
                 });
 
+                productSpaceCheckBox.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (productSpaceCheckBox.isChecked() == true) {
+
+                            View row = (View) view.getParent();
+                            TableRow tbRow = (TableRow) row;
+                            int totalRows = ((TableRow) row).getChildCount();
+                            for (int i = 0; i < totalRows; i++) {
+                                CheckBox tempCheckBox = (CheckBox) tbRow.getChildAt(i);
+                                tempCheckBox.setEnabled(true);
+                                TextView textView = (TextView) tbRow.getChildAt(i);
+                                double rowPrice = Double.valueOf(textView.getText().toString()).doubleValue();
+                                totalPrice = totalPrice + rowPrice;
+                            }
+                            totalAmountText.setText(new DecimalFormat("#.00").format(totalPrice));
+                        } else if (productSpaceCheckBox.isChecked() == false) {
+                            View row = (View) view.getParent();
+                            TableRow tbRow = (TableRow) row;
+                            int totalRows = ((TableRow) row).getChildCount();
+                            for (int i = 0; i < totalRows; i++) {
+                                CheckBox tempCheckBox = (CheckBox) tbRow.getChildAt(i);
+                                tempCheckBox.setEnabled(false);
+                                TextView textView = (TextView) tbRow.getChildAt(i);
+                                double rowPrice = Double.valueOf(textView.getText().toString()).doubleValue();
+                                totalPrice = totalPrice - rowPrice;
+                            }
+                            totalAmountText.setText(new DecimalFormat("#.00").format(totalPrice));
+                        } else {
+
+                        }
+
+
+                    }
+                });
+
             }
 
         }
@@ -135,12 +176,12 @@ public class ShoppingListActivity extends AppCompatActivity {
 //        CheckBox box = new CheckBox(this);
 //        tbrow0.addView(box);
 
-        TextView tv1 = new TextView(this);
-        tv1.setText(GroceryConstant.PRODUCT_SPACE);
-        tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        tv1.setTextColor(Color.BLACK);
-        tv1.setTypeface(tf, Typeface.NORMAL);
-        tbrow0.addView(tv1);
+        productSpaceCheckBox = new CheckBox(this);
+        productSpaceCheckBox.setText(GroceryConstant.PRODUCT_SPACE);
+        productSpaceCheckBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        productSpaceCheckBox.setTextColor(Color.BLACK);
+        productSpaceCheckBox.setTypeface(tf, Typeface.NORMAL);
+        tbrow0.addView(productSpaceCheckBox);
 
         TextView tv2 = new TextView(this);
         tv2.setText(GroceryConstant.UNIT_LESS_SPACE);

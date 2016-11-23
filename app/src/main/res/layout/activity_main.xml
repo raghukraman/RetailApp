@@ -24,7 +24,7 @@
 
     <Spinner
         android:id="@+id/category"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/category_lbl"
         android:layout_centerHorizontal="true"
@@ -38,7 +38,7 @@
 
     <Spinner
         android:id="@+id/list"
-        android:layout_width="230dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginTop="30dp"
@@ -82,8 +82,8 @@
 
     <TableLayout
         android:id="@+id/table_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:isScrollContainer="true"
         android:padding="1dip"
@@ -91,7 +91,6 @@
     </TableLayout>
 
     </ScrollView>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

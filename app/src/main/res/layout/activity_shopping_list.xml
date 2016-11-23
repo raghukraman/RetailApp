@@ -8,7 +8,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.retail.retailapp.ShoppingListActivity">
-
     <ScrollView
         android:id="@+id/scrollid"
         android:layout_width="match_parent"
@@ -18,8 +17,8 @@
         android:scrollbarStyle="outsideOverlay">
     <TableLayout
         android:id="@+id/table_shopping_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:isScrollContainer="true"
         android:padding="1dip"
@@ -43,8 +42,8 @@
     <!--android:onClick="modifyItems"-->
     <!--/>-->
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
         <Button
@@ -78,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:textColor="#400649"
-            android:textSize="10pt" />
+            android:textSize="12pt" />
     </RelativeLayout>
 
     <!--<Button android:id="@+id/edit"-->

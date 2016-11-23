@@ -8,8 +8,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".ShoppingListActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"></activity>
+        <activity
+            android:name=".ShoppingListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"></activity>
         <activity
             android:name=".MainNavigation"
             android:label="Retail Checker"
