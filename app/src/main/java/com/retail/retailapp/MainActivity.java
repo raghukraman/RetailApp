@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     List<PurchaseItem> newList = new ArrayList<>();
                     String purchaseId = random();
-                    newList.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type, purchaseId,falsex));
+                    newList.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type, purchaseId,false));
                     selectedMap.put(category, newList);
                 }
 
