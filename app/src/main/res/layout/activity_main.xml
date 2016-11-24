@@ -11,6 +11,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.retail.retailapp.MainActivity">
 
+                                        <!-- Row 1 -->
+
     <TextView
         android:id="@+id/category_lbl"
         android:layout_width="wrap_content"
@@ -35,13 +37,15 @@
         >
     </Spinner>
 
-
+                                            <!-- Row 2 -->
     <Spinner
         android:id="@+id/list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:layout_marginTop="30dp"
+        android:gravity="left"
+        android:layout_below="@+id/category_lbl"
+        android:layout_alignRight="@+id/category"
         android:prompt="@string/category_prompt"
          >
     </Spinner>
@@ -51,9 +55,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="right"
-    android:layout_marginTop="30dp"
     android:layout_toRightOf="@id/list"
         android:prompt="@string/category_prompt"
+        android:layout_alignBottom="@+id/list"
          >
     </Spinner>
 
@@ -70,14 +74,41 @@
         android:src="@drawable/ic_add_btn"
         />
 
+                                            <!-- Row 3 -->
+    <TextView
+        android:id="@+id/cartnumber_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_below="@+id/list"
+        android:layout_alignParentLeft="true"
+        android:text="@string/cartnumber_lbl"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/cartnumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/cartnumber_lbl"
+        android:layout_below="@id/weight"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:text=""
+        />
+
 
     <ScrollView
         android:id="@+id/scrollid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/weight"
+        android:layout_alignBaseline="@id/cartnumber_lbl"
         android:fillViewport="true"
         android:scrollbarStyle="outsideOverlay"
+        android:padding="1dip"
         >
 
     <TableLayout
@@ -86,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:isScrollContainer="true"
-        android:padding="1dip"
+        android:paddingTop="1dip"
         >
     </TableLayout>
 

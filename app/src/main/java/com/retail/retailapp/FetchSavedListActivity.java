@@ -102,6 +102,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
                 Map<String, List<PurchaseItem>> data_map = dbHandler.getOrderDetails(cartNumber);
 
                 final TextView cartNumberView = (TextView) findViewById(R.id.cartnumber);
+                System.out.println("Cart Number " + cartNumberView.getText());
                 cartNumberView.setText(cartNumber);
 
                 init_table_layout();

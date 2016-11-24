@@ -87,7 +87,9 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
-    public String createOrder(Map<String, List<PurchaseItem>> selectedMap) {
+    public String createOrder(Map<String, List<PurchaseItem>> selectedMap,String orderNumber) {
+
+        String formattedOrderNumber = "";
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -103,7 +105,11 @@ public class DBHandler extends SQLiteOpenHelper {
         int unixtime = (int)todaysDateAt12AM.getTime()/1000;
         int noOfOrdersExisting = getNumberOfRows(unixtime)+1;
 
-        String formattedOrderNumber = year + "-" + month +"-"+date +"-"+noOfOrdersExisting;
+        if (orderNumber != null && !"".equals(orderNumber.trim())) {
+            formattedOrderNumber = orderNumber;
+        } else {
+            formattedOrderNumber = year + "-" + month +"-"+date +"-"+noOfOrdersExisting;
+        }
 
         contentValues.put(ORDER_NO, formattedOrderNumber);
         int unixTimeNow = (int)System.currentTimeMillis() / 1000;
@@ -118,6 +124,8 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     private void createOrderDetails(Map<String, List<PurchaseItem>> selectedMap, SQLiteDatabase db,String orderNumber) {
+
+        db.execSQL("delete from " + TABLE_ORDER_DETAILS + " where "+ ORDER_NO   + "= '" + orderNumber + "' ");
 
         Iterator it = selectedMap.entrySet().iterator();
         while (it.hasNext()) {

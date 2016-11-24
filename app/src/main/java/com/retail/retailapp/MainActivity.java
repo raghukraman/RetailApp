@@ -36,6 +36,7 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -58,17 +59,6 @@ public class MainActivity extends AppCompatActivity {
     private Typeface myFont;
     DBHandler dbHandler;
 
-    public static String random() {
-        Random generator = new Random();
-        StringBuilder randomStringBuilder = new StringBuilder();
-        int randomLength = generator.nextInt(5);
-        char tempChar;
-        for (int i = 0; i < randomLength; i++) {
-            tempChar = (char) (generator.nextInt(96) + 32);
-            randomStringBuilder.append(tempChar);
-        }
-        return randomStringBuilder.toString();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 textView3.setTextColor(Color.BLACK);
                 textView3.setGravity(Gravity.RIGHT);
                 textView3.setPadding(1, 1, 1, 1);
-                textView3.setPadding(0,0,40,0);
+                textView3.setPadding(0, 0, 40, 0);
                 textView3.setTypeface(face);
                 tbrow.addView(textView3);
 
@@ -172,12 +162,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (selectedMap.get(category) != null) {
                     List<PurchaseItem> items = selectedMap.get(category);
-                    String purchaseId = random();
-                    items.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type, purchaseId,false));
+                    items.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type,false));
                 } else {
                     List<PurchaseItem> newList = new ArrayList<>();
-                    String purchaseId = random();
-                    newList.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type, purchaseId,false));
+                    newList.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type,false));
                     selectedMap.put(category, newList);
                 }
 
@@ -191,6 +179,14 @@ public class MainActivity extends AppCompatActivity {
                         ViewGroup container = ((ViewGroup) row.getParent());
                         // delete the row and invalidate your view so it gets redrawn
                         TableRow tbRow = (TableRow) row;
+                        TextView itemNameView = (TextView) tbRow.getChildAt(1); //itemname
+
+                        TextView itemUnitView = (TextView) tbRow.getChildAt(2); //itemquantity
+
+                        CharSequence itemName = itemNameView.getText();
+                        CharSequence itemQuantity = itemUnitView.getText();
+
+
                         TextView textView = (TextView) tbRow.getChildAt(3);
                         double rowPrice = Double.valueOf(textView.getText().toString()).doubleValue();
                         totalPrice = totalPrice - rowPrice;
@@ -198,10 +194,27 @@ public class MainActivity extends AppCompatActivity {
                         totalAmountText.setText(new DecimalFormat("#.00").format(totalPrice));
                         container.invalidate();
                         List<PurchaseItem> purchageList = selectedMap.get(category);
-                        String itemKey = purchageList.get(purchageList.size() - 1).getItemKey();
-                        if (purchageList.get(purchageList.size() - 1).getItemKey().equals(itemKey)) {
-                            purchageList.remove(purchageList.size() - 1);
-                            selectedMap.put(category, purchageList);
+                        Iterator iter = selectedMap.entrySet().iterator();
+                        boolean found = false;
+                        while (iter.hasNext()) {
+                            Map.Entry pair = (Map.Entry) iter.next();
+
+                            List<PurchaseItem> list = (List) pair.getValue();
+
+                            for (Iterator<PurchaseItem> iterator = list.iterator(); iterator.hasNext(); ) {
+                                PurchaseItem purchaseItem  = iterator.next();
+                                if (purchaseItem.getName().equals(itemName.toString()) && purchaseItem.getQuantity().equals(itemQuantity.toString())) {
+                                    found=true;
+                                    iterator.remove();
+                                }
+                            }
+
+
+                            if (found) {
+                                break;
+                            }
+
+
                         }
 
                     }
@@ -341,9 +354,18 @@ public class MainActivity extends AppCompatActivity {
      * Called when the user clicks the Send button
      */
     public void saveItems(View view) {
+        final TextView cartNumberView = (TextView) findViewById(R.id.cartnumber);
+        CharSequence orderNo = cartNumberView.getText();
+        String orderNumber = "";
+        if (orderNo != null) {
+            orderNumber = orderNo.toString();
+        }
+
         Intent intent = new Intent(this, FetchSavedListActivity.class);
-        String orderNumber=dbHandler.createOrder(selectedMap);
+        orderNumber=dbHandler.createOrder(selectedMap,orderNumber);
         intent.putExtra("orderNumber",orderNumber);
+
+        cartNumberView.setText(orderNumber);
         startActivity(intent);
     }
 
