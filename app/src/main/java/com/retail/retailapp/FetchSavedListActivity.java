@@ -63,7 +63,12 @@ public class FetchSavedListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fetch_saved_list);
         Intent caller = getIntent();
         dbHandler = new DBHandler(this);
-        String orderNumber = (String) caller.getExtras().get("orderNumber");
+        String orderNumber = "";
+                try {
+                    orderNumber= (String) caller.getExtras().get("orderNumber");
+                } catch (Exception e) {
+
+                }
         System.out.println("Order Number :=" + orderNumber);
 
 

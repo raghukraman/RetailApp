@@ -354,7 +354,14 @@ public class MainActivity extends AppCompatActivity {
      * Called when the user clicks the Send button
      */
     public void saveItems(View view) {
+        Typeface face = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
         final TextView cartNumberView = (TextView) findViewById(R.id.cartnumber);
+        final TextView cartNumberLabel = (TextView) findViewById(R.id.cartnumber_lbl);
+        cartNumberView.setTypeface(face);
+        cartNumberView.setTypeface(face, Typeface.NORMAL);
+        cartNumberLabel.setTypeface(face);
+        cartNumberLabel.setTypeface(face, Typeface.NORMAL);
+
         CharSequence orderNo = cartNumberView.getText();
         String orderNumber = "";
         if (orderNo != null) {
