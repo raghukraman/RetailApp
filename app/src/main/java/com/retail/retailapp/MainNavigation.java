@@ -95,6 +95,9 @@ public class MainNavigation extends AppCompatActivity
 
         } else if (id == R.id.nav_report) {
 
+            Intent intent = new Intent(context, ReportActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_history) {
 
         } else if (id == R.id.nav_share) {

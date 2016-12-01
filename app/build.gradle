@@ -18,10 +18,23 @@ android {
         }
     }
 }
+repositories {
+    maven {
+        url "https://dl.bintray.com/sj/maven/"
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
+    compile 'com.numetriclabz.numandroidcharts:numandroidcharts:1.0.2'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0'
     testCompile 'junit:junit:4.12'
 }
