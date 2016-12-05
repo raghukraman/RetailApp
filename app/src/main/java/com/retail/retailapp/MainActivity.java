@@ -2,6 +2,7 @@ package com.retail.retailapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -45,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     Spinner categoryspinner, itemlistspinner, weightspinner;
-    Button addButton;
-    ImageView addButtonImage;
+    Button addButton,saveButton;
+    ImageView addButtonImage,imageViewHeader;
     TextView totalAmountText;
+    TextView header1,header2,header3;
     LinearLayout content;
     RelativeLayout rlayout;
     TableLayout tblLayout;
@@ -80,11 +82,28 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.category_lbl);
         Typeface face = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
         tv.setTypeface(face, Typeface.NORMAL);
+        setAllHeaderFont();
         loadCategories(groceryMap); //load the categories spinner
         addListenerOnSpinnerCategorySelection(); //event listener for Categories spinner
         addListenerOnSpinnerItemSelection(); //event listener for Items spinner
-        init();  //Initialize the table layout with the headings
+        //init();  //Initialize the table layout with the headings
         addListenerOnAddButton(); //Listener for the add button
+        addListenerOnSaveButton();
+    }
+
+    private void setAllHeaderFont() {
+        Typeface face  = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
+        header1 = (TextView) findViewById(R.id.header1);
+        header2 = (TextView) findViewById(R.id.header2);
+        header3 = (TextView) findViewById(R.id.header3);
+
+        header1.setTypeface(face,Typeface.BOLD);
+        header2.setTypeface(face,Typeface.BOLD);
+        header3.setTypeface(face,Typeface.BOLD);
+        header1.setTextColor(Color.BLACK);
+        header2.setTextColor(Color.BLACK);
+        header3.setTextColor(Color.BLACK);
+
     }
 
     private void loadCategories(Map<String, List<GroceryItem>> groceryMap) {
@@ -99,7 +118,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addListenerOnAddButton() {
+        tblLayout = (TableLayout) findViewById(R.id.table_main);
         this.addButtonImage = (ImageView) this.findViewById(R.id.add_btn_image);
+//        this.imageViewHeader = (ImageView) this.findViewById(R.id.imageViewHeader);
+
+        TableRow.LayoutParams tlp = new TableRow.LayoutParams(48, 50 );
+//        imageViewHeader.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+//                TableRow.LayoutParams.WRAP_CONTENT));
+//        imageViewHeader.setLayoutParams(tlp);
+//        imageViewHeader.setPadding(0,10,0,0);
 
         this.addButtonImage.setOnClickListener(new View.OnClickListener() {
             double totalPrice = 0;
@@ -107,38 +134,57 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                content=(LinearLayout) findViewById(R.id.contentLayout);
                 Typeface face = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
-
-                int rowNumber = tblLayout.getChildCount();
+                    int  rowNumber = tblLayout.getChildCount();
                 TableRow tbrow = new TableRow(MainActivity.this);
-                TextView t1v = new TextView(MainActivity.this);
-                t1v.setText("" + rowNumber);
-                t1v.setTextColor(Color.BLACK);
-                t1v.setGravity(Gravity.CENTER);
-                t1v.setTypeface(face);
-                tbrow.addView(t1v);
+//                TableLayout.LayoutParams rowLayout = new TableLayout.LayoutParams(
+//                        TableLayout.LayoutParams.MATCH_PARENT,
+//                        TableLayout.LayoutParams.WRAP_CONTENT
+//                );
+//                tbrow.setLayoutParams(rowLayout);
+
+//                TextView t1v = new TextView(MainActivity.this);
+//                t1v.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+//                        TableRow.LayoutParams.WRAP_CONTENT));
+//                t1v.setText("" + rowNumber);
+//                t1v.setTextColor(Color.BLUE);
+//                t1v.setGravity(Gravity.CENTER);
+//                t1v.setTypeface(face);
+//                t1v.setHeight(20);
+//                tbrow.addView(t1v);
+//                Resources resource = context.getResources();
+//                tbrow.setBackgroundColor(););
 
                 final String category = categoryspinner.getItemAtPosition(categoryspinner.getSelectedItemPosition()).toString();
 
                 TextView textView1 = new TextView(getApplicationContext());
                 String productName = itemlistspinner.getItemAtPosition(itemlistspinner.getSelectedItemPosition()).toString();
+                textView1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
                 textView1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 textView1.setTextColor(Color.BLACK);
                 textView1.setText(productName);
-                textView1.setPadding(1, 1, 1, 1);
+                textView1.setPadding(8, 8, 8, 8);
                 textView1.setTypeface(face);
-                textView1.setWidth(230);
+//                textView1.setWidth(230);
+//                textView1.setHeight(20);
                 tbrow.addView(textView1);
 
                 TextView textView2 = new TextView(getApplicationContext());
+                textView2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
                 String quantity = weightspinner.getItemAtPosition(weightspinner.getSelectedItemPosition()).toString();
                 textView2.setText(quantity);
                 textView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 textView2.setTextColor(Color.BLACK);
-                textView2.setPadding(1, 1, 1, 1);
+                textView2.setPadding(8, 8, 8, 8);
                 textView2.setTypeface(face);
+                textView2.setGravity(Gravity.RIGHT);
+//                textView2.setHeight(8);
                 tbrow.addView(textView2);
 
                 TextView textView3 = new TextView(getApplicationContext());
+                textView3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
                 GroceryItem gItem = GroceryUtil.getUnitPrice(groceryMap, category, productName);
                 Double unitPrice = gItem.getPrice();
                 String type = gItem.getType();
@@ -147,16 +193,19 @@ public class MainActivity extends AppCompatActivity {
                 textView3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 textView3.setTextColor(Color.BLACK);
                 textView3.setGravity(Gravity.RIGHT);
-                textView3.setPadding(1, 1, 1, 1);
-                textView3.setPadding(0, 0, 40, 0);
-                textView3.setTypeface(face);
+//                textView3.setPadding(1, 1, 1, 1);
+//                textView3.setPadding(0, 0, 40, 0);
+//                textView3.setTypeface(face);
+//                textView3.setHeight(20);
                 tbrow.addView(textView3);
 
                 ImageView image = new ImageView(MainActivity.this);
+                image.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
                 image.setImageResource(R.drawable.cross_mark);
                 image.setId(rowNumber);
-                TableRow.LayoutParams tlp = new TableRow.LayoutParams(50, 52);
-                image.setPadding(1, 0, 1, 2);
+                TableRow.LayoutParams tlp = new TableRow.LayoutParams(38, 40);
+//                image.setPadding(1, 0, 1, 2);
                 image.setLayoutParams(tlp);
 
 
@@ -187,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                         CharSequence itemQuantity = itemUnitView.getText();
 
 
-                        TextView textView = (TextView) tbRow.getChildAt(3);
+                        TextView textView = (TextView) tbRow.getChildAt(2);
                         double rowPrice = Double.valueOf(textView.getText().toString()).doubleValue();
                         totalPrice = totalPrice - rowPrice;
                         container.removeView(row);
@@ -226,7 +275,8 @@ public class MainActivity extends AppCompatActivity {
                 totalPrice = totalPrice + productPrice;
                 totalAmountText.setText(new DecimalFormat("#.00").format(totalPrice));
 
-                tblLayout.addView(tbrow);
+                tblLayout.addView(tbrow,new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
 
 
             }
@@ -353,27 +403,37 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Called when the user clicks the Send button
      */
-    public void saveItems(View view) {
-        Typeface face = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
-        final TextView cartNumberView = (TextView) findViewById(R.id.cartnumber);
-        final TextView cartNumberLabel = (TextView) findViewById(R.id.cartnumber_lbl);
-        cartNumberView.setTypeface(face);
-        cartNumberView.setTypeface(face, Typeface.NORMAL);
-        cartNumberLabel.setTypeface(face);
-        cartNumberLabel.setTypeface(face, Typeface.NORMAL);
+    public void addListenerOnSaveButton() {
 
-        CharSequence orderNo = cartNumberView.getText();
-        String orderNumber = "";
-        if (orderNo != null) {
-            orderNumber = orderNo.toString();
-        }
+        this.saveButton = (Button) this.findViewById(R.id.save);
 
-        Intent intent = new Intent(this, FetchSavedListActivity.class);
-        orderNumber=dbHandler.createOrder(selectedMap,orderNumber);
-        intent.putExtra("orderNumber",orderNumber);
+        this.saveButton.setOnClickListener(new View.OnClickListener() {
 
-        cartNumberView.setText(orderNumber);
-        startActivity(intent);
+            @Override
+            public void onClick(View v) {
+
+                Typeface face = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
+                final TextView cartNumberView = (TextView) findViewById(R.id.cartnumber);
+                final TextView cartNumberLabel = (TextView) findViewById(R.id.cartnumber_lbl);
+                cartNumberView.setTypeface(face);
+                cartNumberView.setTypeface(face, Typeface.NORMAL);
+                cartNumberLabel.setTypeface(face);
+                cartNumberLabel.setTypeface(face, Typeface.NORMAL);
+
+                CharSequence orderNo = cartNumberView.getText();
+                String orderNumber = "";
+                if (orderNo != null) {
+                    orderNumber = orderNo.toString();
+                }
+
+                Intent intent = new Intent(MainActivity.this, FetchSavedListActivity.class);
+                orderNumber = dbHandler.createOrder(selectedMap, orderNumber);
+                intent.putExtra("orderNumber", orderNumber);
+
+                cartNumberView.setText(orderNumber);
+                startActivity(intent);
+            }
+        });
     }
 
     private static class MySpinnerAdapter extends ArrayAdapter<String> {
