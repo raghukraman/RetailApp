@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.retail.retailapp.vo.Order;
 import com.retail.retailapp.vo.PurchaseItem;
 
 import java.util.ArrayList;
@@ -41,6 +40,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CATEGORY = "category";
     private static final String QUANTITY = "quantity";
     private static final String PRICE    = "price";
+    private static final int ZERO = 0;
+    private static final int ONE = 1;
 
 
     public DBHandler(Context context) {
@@ -162,7 +163,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public List<String> getOpenOrders() {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT " + ORDER_NO + " FROM " + TABLE_ORDER  + " ORDER BY " + CREATION_DATE +  " DESC LIMIT 3 ";
+        String query = "SELECT " + ORDER_NO + " FROM " + TABLE_ORDER + " WHERE " + STATUS + "='" + ZERO + "'" + " ORDER BY " + CREATION_DATE + " DESC LIMIT 3 ";
         Cursor c = db.rawQuery(query, null);
         List<String> openOrders = new ArrayList<>();
         if(c.moveToFirst()){
@@ -214,6 +215,23 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
         return selectedMap;
     }
+
+    public boolean updateOrder(String orderNo) {
+        boolean result = false;
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues set_values = new ContentValues();
+        set_values.put(STATUS, 1);
+
+
+        int updated_count = db.update(TABLE_ORDER, set_values, ORDER_NO + "='" + orderNo + "'", null);
+
+        if (updated_count > 0) {
+            result = true;
+        }
+
+        return result;
+    }
+
 
 }
 

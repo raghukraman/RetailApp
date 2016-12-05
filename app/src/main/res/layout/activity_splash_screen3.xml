@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_scr2">
+
+    <!--<ImageView-->
+    <!--android:id="@+id/imgLogo"-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="100dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:src="@drawable/magnifier" />-->
+
+    <TextView
+        android:id="@+id/tagline"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:background="#FFE5CC"
+        android:gravity="center_horizontal"
+        android:text="Its Make Easy to prepare and track your shopping items.. "
+        android:textColor="#6666FF"
+        android:textSize="25dp" />
+
+</RelativeLayout>
