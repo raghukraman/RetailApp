@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFE5CC">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/img2"
+                android:layout_width="400dp"
+                android:layout_height="170dp"
+                android:src="@drawable/check_list_ic" />
+        </TableRow>
+
+        <TableRow android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/img1"
+                android:layout_width="400dp"
+                android:layout_height="200dp"
+                android:src="@drawable/splash_scr3" />
+        </TableRow>
+
+        <TableRow android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/tagline"
+                android:layout_width="400dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="15dp"
+                android:background="#FFE5CC"
+                android:text="Get Started your almost in.... "
+                android:textColor="#7F4223"
+                android:textSize="25dp" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

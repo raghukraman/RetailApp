@@ -22,7 +22,7 @@ repositories {
     maven {
         url "https://dl.bintray.com/sj/maven/"
     }
-}
+    }
 
 allprojects {
     repositories {
