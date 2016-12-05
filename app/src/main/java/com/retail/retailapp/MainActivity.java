@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         header1 = (TextView) findViewById(R.id.header1);
         header2 = (TextView) findViewById(R.id.header2);
         header3 = (TextView) findViewById(R.id.header3);
+
         header1.setTypeface(face,Typeface.BOLD);
         header2.setTypeface(face,Typeface.BOLD);
         header3.setTypeface(face,Typeface.BOLD);
@@ -119,13 +120,13 @@ public class MainActivity extends AppCompatActivity {
     private void addListenerOnAddButton() {
         tblLayout = (TableLayout) findViewById(R.id.table_main);
         this.addButtonImage = (ImageView) this.findViewById(R.id.add_btn_image);
-        this.imageViewHeader = (ImageView) this.findViewById(R.id.imageViewHeader);
+//        this.imageViewHeader = (ImageView) this.findViewById(R.id.imageViewHeader);
 
-        TableRow.LayoutParams tlp = new TableRow.LayoutParams(58, 60);
-        imageViewHeader.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT));
-        imageViewHeader.setLayoutParams(tlp);
-        imageViewHeader.setPadding(0,10,0,0);
+        TableRow.LayoutParams tlp = new TableRow.LayoutParams(48, 50 );
+//        imageViewHeader.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+//                TableRow.LayoutParams.WRAP_CONTENT));
+//        imageViewHeader.setLayoutParams(tlp);
+//        imageViewHeader.setPadding(0,10,0,0);
 
         this.addButtonImage.setOnClickListener(new View.OnClickListener() {
             double totalPrice = 0;
@@ -203,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                         TableRow.LayoutParams.WRAP_CONTENT));
                 image.setImageResource(R.drawable.cross_mark);
                 image.setId(rowNumber);
-                TableRow.LayoutParams tlp = new TableRow.LayoutParams(50, 52);
+                TableRow.LayoutParams tlp = new TableRow.LayoutParams(38, 40);
 //                image.setPadding(1, 0, 1, 2);
                 image.setLayoutParams(tlp);
 

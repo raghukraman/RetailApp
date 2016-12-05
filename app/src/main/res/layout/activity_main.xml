@@ -42,7 +42,6 @@
         android:id="@+id/list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/category"
         android:layout_below="@+id/category_lbl"
         android:layout_gravity="left"
         android:gravity="left"
@@ -139,36 +138,36 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:id="@+id/header1"
-                    android:text=" Product       "
+                    android:text="Product   "
                     android:textColor="#000"
                     android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="left"
                     android:id="@+id/header2"
-                    android:text="   Unit"
+                    android:text="Unit"
                     android:textColor="#000"
                     android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="left"
                     android:id="@+id/header3"
-                    android:padding="8dip"
-                    android:text="      Price"
+
+                    android:text=" Price"
                     android:textColor="#000"
                     android:textSize="18sp" />
 
-                <ImageView
-                    android:id="@+id/imageViewHeader"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:padding="8dip"
+                <!--<ImageView-->
+                    <!--android:id="@+id/imageViewHeader"-->
+                    <!--android:layout_width="35dp"-->
+                    <!--android:layout_height="35dp"-->
+                    <!--android:padding="8dip"-->
 
-                    android:src="@drawable/cross_mark" />
+                    <!--android:src="@drawable/cross_mark" />-->
             </TableRow>
         </TableLayout>
     </LinearLayout>
@@ -227,7 +226,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center"
-                android:padding="8dip"
+
                 android:text="      Price"
                 android:textColor="#000"
                 android:textSize="18sp" />
