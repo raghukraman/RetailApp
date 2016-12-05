@@ -44,62 +44,62 @@
           "price": 48.00
         },
         {
-          "name": "snake guard",
+          "name": "Snake guard",
           "type": "weight",
           "price": 18.00
         },
         {
-          "name": "garlic",
+          "name": "Garlic",
           "type": "weight",
           "price": 174.00
         },
         {
-          "name": "cucumber",
+          "name": "Cucumber",
           "type": "weight",
           "price": 12.00
         },
         {
-          "name": "cauliflower",
+          "name": "Cauliflower",
           "type": "weight",
           "price": 45.00
         },
         {
-          "name": "baby corn",
+          "name": "Baby corn",
           "type": "weight",
           "price": 20.00
         },
         {
-          "name": "beet root",
+          "name": "Beet root",
           "type": "weight",
           "price": 20.00
         },
         {
-          "name": "brinjal white",
+          "name": "Brinjal white",
           "type": "weight",
           "price": 25.00
         },
         {
-          "name": "cabbage",
+          "name": "Cabbage",
           "type": "weight",
           "price": 13.00
         },
         {
-          "name": "carrot ooty",
+          "name": "Carrot ooty",
           "type": "weight",
           "price": 43.00
         },
         {
-          "name": "capsicum",
+          "name": "Capsicum",
           "type": "weight",
           "price": 25.00
         },
         {
-          "name": "capsicum R&y",
+          "name": "Capsicum R&y",
           "type": "weight",
           "price": 65.00
         },
         {
-          "name": "cabbage red",
+          "name": "Cabbage red",
           "type": "weight",
           "price": 70.00
         },
@@ -108,28 +108,24 @@
           "type": "weight",
           "price": 44.00
         },
+
         {
-          "name": "baby corn cleaned",
-          "type": "weight",
-          "price": 93.00
-        },
-        {
-          "name": "chow chow",
+          "name": "Chow chow",
           "type": "weight",
           "price": 26.00
         },
         {
-          "name": "coconut[B]",
+          "name": "Coconut[B]",
           "type": "numbers",
           "price": 18.00
         },
         {
-          "name": "coconut[M]",
+          "name": "Coconut[M]",
           "type": "numbers",
           "price": 15.00
         },
         {
-          "name": "coconut[s]",
+          "name": "Coconut[s]",
           "type": "numbers",
           "price": 12.00
         }
@@ -170,6 +166,11 @@
         },
         {
           "name": "Bread-sweet",
+          "type": "numbers",
+          "price": 30.00
+        },
+        {
+          "name": "Bread-sweet aaaaaaa",
           "type": "numbers",
           "price": 30.00
         }

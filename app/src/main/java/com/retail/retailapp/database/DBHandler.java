@@ -100,7 +100,7 @@ public class DBHandler extends SQLiteOpenHelper {
         today.set(Calendar.SECOND,0);
         Date todaysDateAt12AM = today.getTime();
         int year=today.get(Calendar.YEAR);
-        int month=today.get(Calendar.MONTH);
+        int month=today.get(Calendar.MONTH)+1;
         int date=today.get(Calendar.DATE);
         int unixtime = (int)todaysDateAt12AM.getTime()/1000;
         int noOfOrdersExisting = getNumberOfRows(unixtime)+1;
@@ -117,7 +117,10 @@ public class DBHandler extends SQLiteOpenHelper {
         contentValues.put(STATUS, 0);
 
         // Inserting Row
-        db.insert(TABLE_ORDER, null, contentValues);
+        if (orderNumber == null || "".equals(orderNumber.trim())) {
+            System.out.println("Inserting into the ORder Table");
+            db.insert(TABLE_ORDER, null, contentValues); //insert only new orders
+        }
         createOrderDetails(selectedMap,db,formattedOrderNumber); //create Order Details
         db.close(); // Closing database connection
         return formattedOrderNumber;

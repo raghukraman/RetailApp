@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     GroceryItemLoader itemloader;
     private Typeface myFont;
     DBHandler dbHandler;
-
+    double totalPrice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         addListenerOnSpinnerCategorySelection(); //event listener for Categories spinner
         addListenerOnSpinnerItemSelection(); //event listener for Items spinner
         //init();  //Initialize the table layout with the headings
-        addListenerOnAddButton(); //Listener for the add button
+//        addListenerOnAddButton(); //Listener for the add button
         addListenerOnSaveButton();
     }
 
@@ -117,21 +117,35 @@ public class MainActivity extends AppCompatActivity {
         categoryspinner.setAdapter(adapter);
     }
 
-    private void addListenerOnAddButton() {
+
+    public void onClick(View v) {
+        final int id = v.getId();
+        switch (id) {
+            case R.id.add:
+                addItems();
+                break;
+//            case R.id.button2:
+                // your code for button2 here
+//                break;
+            // even more buttons here
+        }
+    }
+
+    private void addItems() {
         tblLayout = (TableLayout) findViewById(R.id.table_main);
-        this.addButtonImage = (ImageView) this.findViewById(R.id.add_btn_image);
+//        this.addButtonImage = (ImageView) this.findViewById(R.id.add_btn_image);
 //        this.imageViewHeader = (ImageView) this.findViewById(R.id.imageViewHeader);
 
-        TableRow.LayoutParams tlp = new TableRow.LayoutParams(48, 50 );
+//        TableRow.LayoutParams tlp = new TableRow.LayoutParams(48, 50 );
 //        imageViewHeader.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
 //                TableRow.LayoutParams.WRAP_CONTENT));
 //        imageViewHeader.setLayoutParams(tlp);
 //        imageViewHeader.setPadding(0,10,0,0);
 
-        this.addButtonImage.setOnClickListener(new View.OnClickListener() {
-            double totalPrice = 0;
-            @Override
-            public void onClick(View v) {
+//        this.addButtonImage.setOnClickListener(new View.OnClickListener() {
+
+//            @Override
+//            public void onClick(View v) {
 //                content=(LinearLayout) findViewById(R.id.contentLayout);
                 Typeface face = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
                     int  rowNumber = tblLayout.getChildCount();
@@ -220,6 +234,8 @@ public class MainActivity extends AppCompatActivity {
 
                 image.setOnClickListener(new View.OnClickListener() {
 
+//                    double totalPrice = 0;
+
                     @Override
                     public void onClick(View v) {
                         // row is your row, the parent of the clicked button
@@ -228,9 +244,9 @@ public class MainActivity extends AppCompatActivity {
                         ViewGroup container = ((ViewGroup) row.getParent());
                         // delete the row and invalidate your view so it gets redrawn
                         TableRow tbRow = (TableRow) row;
-                        TextView itemNameView = (TextView) tbRow.getChildAt(1); //itemname
+                        TextView itemNameView = (TextView) tbRow.getChildAt(0); //itemname
 
-                        TextView itemUnitView = (TextView) tbRow.getChildAt(2); //itemquantity
+                        TextView itemUnitView = (TextView) tbRow.getChildAt(1); //itemquantity
 
                         CharSequence itemName = itemNameView.getText();
                         CharSequence itemQuantity = itemUnitView.getText();
@@ -281,9 +297,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-        });
+//        });
 
-    }
+//    }
 
     public void init() {
         tblLayout = (TableLayout) findViewById(R.id.table_main);
@@ -423,11 +439,13 @@ public class MainActivity extends AppCompatActivity {
                 CharSequence orderNo = cartNumberView.getText();
                 String orderNumber = "";
                 if (orderNo != null) {
-                    orderNumber = orderNo.toString();
+                    orderNumber = orderNo.toString().trim();
+                    System.out.println("Retrieved Order Number :=" + orderNumber);
                 }
 
                 Intent intent = new Intent(MainActivity.this, FetchSavedListActivity.class);
                 orderNumber = dbHandler.createOrder(selectedMap, orderNumber);
+                System.out.println("Original Order Number :=" + orderNumber);
                 intent.putExtra("orderNumber", orderNumber);
 
                 cartNumberView.setText(orderNumber);

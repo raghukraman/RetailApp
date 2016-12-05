@@ -45,6 +45,7 @@
         android:layout_below="@+id/category_lbl"
         android:layout_gravity="left"
         android:gravity="left"
+        android:minWidth="150dp"
         android:prompt="@string/category_prompt"
          >
     </Spinner>
@@ -59,18 +60,31 @@
         android:prompt="@string/category_prompt">
     </Spinner>
 
-
-
-    <ImageView
-        android:id="@+id/add_btn_image"
-        android:layout_width="wrap_content"
+    <Button android:id="@+id/add"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/weight"
-        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/weight"
         android:layout_toRightOf="@id/weight"
-        android:src="@drawable/ic_add_btn"
+        android:layout_alignParentRight="true"
+        android:textSize="16sp"
+        android:text="@string/add"
+        android:textColor="#000000"
+        android:onClick="onClick"
+        android:padding="1dp"
         />
+
+    <!--<ImageView-->
+        <!--android:id="@+id/add_btn_image"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBottom="@id/weight"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignTop="@+id/weight"-->
+        <!--android:layout_toRightOf="@id/weight"-->
+        <!--android:src="@drawable/ic_add_btn"-->
+        <!--/>-->
+
 
                                             <!-- Row 3 -->
     <TextView
@@ -124,21 +138,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal" >
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center"-->
-                    <!--android:padding="8dip"-->
-                    <!--android:text=" No   "-->
-                    <!--android:textColor="#000"-->
-                    <!--android:textSize="18sp" />-->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:id="@+id/header1"
-                    android:text="Product   "
+                    android:text="Product     "
                     android:textColor="#000"
                     android:textSize="18sp" />
 
@@ -161,13 +167,7 @@
                     android:textColor="#000"
                     android:textSize="18sp" />
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/imageViewHeader"-->
-                    <!--android:layout_width="35dp"-->
-                    <!--android:layout_height="35dp"-->
-                    <!--android:padding="8dip"-->
 
-                    <!--android:src="@drawable/cross_mark" />-->
             </TableRow>
         </TableLayout>
     </LinearLayout>
@@ -196,21 +196,13 @@
         <TableRow android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal">
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center"-->
-                <!--android:padding="8dip"-->
-                <!--android:text=" No   "-->
-                <!--android:textColor="#000"-->
-                <!--android:textSize="18sp" />-->
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="left"
-
-                android:text=" Product       "
+                android:text="Product     "
                 android:textColor="#000"
                 android:textSize="18sp" />
 
@@ -235,7 +227,6 @@
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:padding="8dip"
                 android:src="@drawable/cross_mark" />
         </TableRow>
     </TableLayout>
@@ -276,23 +267,5 @@
             android:textColor="#000000"
             />
     </RelativeLayout>
-
-
-    <!--<com.retail.retailapp.view.DynamicImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:scaleType="centerCrop"-->
-        <!--android:src="@drawable/ic_add_button"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignBottom="@id/weight"-->
-        <!--android:layout_alignTop="@id/weight"-->
-        <!--android:scaleType="fitXY"-->
-
-        <!--/>-->
-
-
-
-
-
 
 </RelativeLayout>
