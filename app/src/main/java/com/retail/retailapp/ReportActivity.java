@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -32,6 +34,8 @@ import com.numetriclabz.numandroidcharts.ChartData;
 import com.numetriclabz.numandroidcharts.DonutChart;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class ReportActivity extends AppCompatActivity {
 
@@ -77,6 +81,7 @@ public class ReportActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
     }
 
     @Override
@@ -131,6 +136,9 @@ public class ReportActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_report, container, false);
+
+            loadYearAndMonth(rootView);
+
             if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
                 TextView textView = (TextView) rootView.findViewById(R.id.section_label);
                 textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
@@ -216,6 +224,39 @@ public class ReportActivity extends AppCompatActivity {
 
 
         }
+
+        private void loadYearAndMonth(View rootView) {
+            Spinner yearSpinner = (Spinner) rootView.findViewById(R.id.year_id);
+            List<String> years = new ArrayList<>();
+            List<String> month = new ArrayList<>();
+
+            //Loading the years into spinner
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+
+            for (int i = 2000; i < year; i++) {
+
+                years.add(String.valueOf(i).toString());
+            }
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, years);
+            adapter1.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            yearSpinner.setAdapter(adapter1);
+
+            //Loading the months into spinner
+            Spinner monthSpinner = (Spinner) rootView.findViewById(R.id.month_id);
+            for (int i = 1; i < 13; i++) {
+                String m = String.valueOf(i).toString();
+                if (m.length() == 1) {
+                    month.add("0" + m);
+                }
+                month.add(m);
+            }
+
+            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, month);
+            adapter1.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            monthSpinner.setAdapter(adapter2);
+        }
+
     }
 
     /**
@@ -254,4 +295,6 @@ public class ReportActivity extends AppCompatActivity {
             return null;
         }
     }
+
+
 }
