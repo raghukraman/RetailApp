@@ -218,15 +218,37 @@ public class DBHandler extends SQLiteOpenHelper {
         return selectedMap;
     }
 
-    public boolean updateOrder(String orderNo) {
+    public boolean updateOrder(String orderNo, Map<String, String> itemMap) {
+
+        boolean orderResult = updateOrderDetails(orderNo, itemMap);
         boolean result = false;
+        if (orderResult == true) {
+            SQLiteDatabase db = this.getReadableDatabase();
+            ContentValues set_values = new ContentValues();
+            set_values.put(STATUS, 1);
+            int updated_count = db.update(TABLE_ORDER, set_values, ORDER_NO + "='" + orderNo + "'", null);
+
+            if (updated_count > 0) {
+                result = true;
+            }
+
+        }
+
+        return result;
+    }
+
+    public boolean updateOrderDetails(String orderNo, Map<String, String> itemMap) {
+        boolean result = false;
+        int updated_count = 0;
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues set_values = new ContentValues();
         set_values.put(STATUS, 1);
+        for (Map.Entry<String, String> entry : itemMap.entrySet()) {
 
-
-        int updated_count = db.update(TABLE_ORDER, set_values, ORDER_NO + "='" + orderNo + "'", null);
-
+            String itemName = entry.getValue();
+            int updated_records = db.update(TABLE_ORDER_DETAILS, set_values, ORDER_NO + "='" + orderNo + "'" + "AND " + ITEM_NAME + "='" + itemName + "'", null);
+            updated_count = updated_count + updated_records;
+        }
         if (updated_count > 0) {
             result = true;
         }
@@ -281,6 +303,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     }
+
+
+
 
 
 

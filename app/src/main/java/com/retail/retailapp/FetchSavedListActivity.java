@@ -36,6 +36,7 @@ import com.retail.retailapp.util.GroceryConstant;
 import com.retail.retailapp.vo.PurchaseItem;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
     double totalPrice = 0;
 
     CheckBox productSpaceCheckBox;
+    Map<String, String> mapOrderedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fetch_saved_list);
         Intent caller = getIntent();
         dbHandler = new DBHandler(this);
+        mapOrderedItems = new HashMap<String, String>();
         String orderNumber = "";
                 try {
                     orderNumber= (String) caller.getExtras().get("orderNumber");
@@ -131,7 +134,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 TextView cartNumberText = (TextView) findViewById(R.id.cartnumber);
                 String cart_number = cartNumberText.getText().toString();
-                boolean result = dbHandler.updateOrder(cart_number);
+                boolean result = dbHandler.updateOrder(cart_number, mapOrderedItems);
                 if (result) {
                     Spinner spinnerView = (Spinner) findViewById(R.id.spinner);
                     Toast.makeText(FetchSavedListActivity.this, "This order is closed successfully", Toast.LENGTH_LONG).show();
@@ -207,17 +210,22 @@ public class FetchSavedListActivity extends AppCompatActivity {
                             View row = (View) v.getParent();
                             TableRow tbRow = (TableRow) row;
                             TextView textView = (TextView) tbRow.getChildAt(2);
+                            TextView itemName = (TextView) tbRow.getChildAt(0);
                             double rowPrice = Double.valueOf(textView.getText().toString()).doubleValue();
                             totalPrice = totalPrice + rowPrice;
                             totalAmountText.setText(new DecimalFormat("#.00").format(totalPrice));
+                            mapOrderedItems.put(itemName.getText().toString(), itemName.getText().toString());
+
                         } else if (checkBox.isChecked() == false) {
                             totalAmountText = (TextView) findViewById(R.id.amount);
                             View row = (View) v.getParent();
                             TableRow tbRow = (TableRow) row;
                             TextView textView = (TextView) tbRow.getChildAt(2);
+                            TextView itemName = (TextView) tbRow.getChildAt(0);
                             double rowPrice = Double.valueOf(textView.getText().toString()).doubleValue();
                             totalPrice = totalPrice - rowPrice;
                             totalAmountText.setText(new DecimalFormat("#.00").format(totalPrice));
+                            mapOrderedItems.remove(itemName.getText().toString());
                         } else {
 
                         }
