@@ -168,12 +168,63 @@
           "name": "Bread-sweet",
           "type": "numbers",
           "price": 30.00
+        }
+      ]
+    },
+    {
+      "category": "Beverages",
+      "itemlist": [
+        {
+          "name": "Soda",
+          "type": "Litre",
+          "price": 30.00
         },
         {
-          "name": "Bread-sweet aaaaaaa",
+          "name": "Coke",
+          "type": "Litre",
+          "price": 20.00
+        },
+        {
+          "name": "Pepsi",
+          "type": "Liter",
+          "price": 30.00
+        },
+        {
+          "name": "Sprite",
+          "type": "Liter",
+          "price": 30.00
+        },
+        {
+          "name": "7 Up",
+          "type": "Liter",
+          "price": 30.00
+        }
+      ]
+    },
+    {
+      "category": "Personal Care",
+      "itemlist": [
+        {
+          "name": "Shampoo",
+          "type": "numbers",
+          "price": 30.00
+        },
+        {
+          "name": "Soap",
+          "type": "numbers",
+          "price": 20.00
+        },
+        {
+          "name": "Hand Soap",
+          "type": "numbers",
+          "price": 30.00
+        },
+        {
+          "name": "shaving cream",
           "type": "numbers",
           "price": 30.00
         }
+
       ]
     }
   ],

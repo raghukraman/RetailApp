@@ -254,7 +254,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         System.out.println("End Unix Time " + endUnixTime);
 
-        String query = "select category,sum(price) from retail_order_details rod join retail_order ro on rod.orderno=ro.orderno where creation_date>=" + startUnixTime +  " and creation_date<=" + endUnixTime + " and ro.status=0 and rod.status=0 group by category";
+        String query = "select category,sum(price) from retail_order_details rod join retail_order ro on rod.orderno=ro.orderno where creation_date>=" + startUnixTime +  " and creation_date<=" + endUnixTime + " and ro.status=1 and rod.status=0 group by category";
 
 //        String query = "select category,price,rod.orderno,ro.creation_date from retail_order_details rod join retail_order ro on ro.orderno=rod.orderno";
 
