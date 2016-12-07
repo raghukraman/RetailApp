@@ -6,11 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.github.mikephil.charting.data.PieEntry;
 import com.retail.retailapp.vo.PurchaseItem;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -103,7 +105,7 @@ public class DBHandler extends SQLiteOpenHelper {
         int year=today.get(Calendar.YEAR);
         int month=today.get(Calendar.MONTH)+1;
         int date=today.get(Calendar.DATE);
-        int unixtime = (int)todaysDateAt12AM.getTime()/1000;
+        long unixtime = todaysDateAt12AM.getTime()/1000;
         int noOfOrdersExisting = getNumberOfRows(unixtime)+1;
 
         if (orderNumber != null && !"".equals(orderNumber.trim())) {
@@ -113,7 +115,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         contentValues.put(ORDER_NO, formattedOrderNumber);
-        int unixTimeNow = (int)System.currentTimeMillis() / 1000;
+        long unixTimeNow = System.currentTimeMillis() / 1000;
         contentValues.put(CREATION_DATE, unixTimeNow);
         contentValues.put(STATUS, 0);
 
@@ -153,7 +155,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
-    public int getNumberOfRows(Integer unixTime) {
+    public int getNumberOfRows(long unixTime) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from retail_order where creation_date>=" + unixTime + "", null);
         int noOfRows = res.getCount();
@@ -231,6 +233,55 @@ public class DBHandler extends SQLiteOpenHelper {
 
         return result;
     }
+
+    public List<PieEntry> getPieChartDetails(int year,int month) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Calendar start = Calendar.getInstance();
+        start.set(year,month,1,0,0,0);
+        Date date = start.getTime();
+        long startUnixTime = date.getTime()/1000;
+
+        System.out.println("Start Unix Time " + startUnixTime);
+
+
+        Calendar mycal = new GregorianCalendar(year, month, 1);
+        int daysInMonth = mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        Calendar end = Calendar.getInstance();
+        end.set(year,month,daysInMonth,24,0,0);
+        Date end1 = end.getTime();
+        long endUnixTime = end1.getTime()/1000;
+
+        System.out.println("End Unix Time " + endUnixTime);
+
+        String query = "select category,sum(price) from retail_order_details rod join retail_order ro on rod.orderno=ro.orderno where creation_date>=" + startUnixTime +  " and creation_date<=" + endUnixTime + " and ro.status=0 and rod.status=0 group by category";
+
+//        String query = "select category,price,rod.orderno,ro.creation_date from retail_order_details rod join retail_order ro on ro.orderno=rod.orderno";
+
+        List<PieEntry> entries = new ArrayList<>();
+
+        Cursor c = db.rawQuery(query, null);
+        System.out.println("no of rows c" + c.getCount());
+        List<String> openOrders = new ArrayList<>();
+        if(c.moveToFirst()){
+            do{
+                String label = c.getString(0);
+                float priceValue = c.getFloat(1);
+//                String order_num = c.getString(2);
+//                long creationtime = c.getLong(3);
+                System.out.println("the values are label " + label + " value " + priceValue);
+//                System.out.println("the values are label " + label + " value " + priceValue + "order number " + order_num + "creation time " + creationtime);
+                entries.add(new PieEntry(priceValue,label));
+            }while(c.moveToNext());
+        }
+
+        c.close();
+        db.close();
+        return entries;
+
+
+    }
+
 
 
 }

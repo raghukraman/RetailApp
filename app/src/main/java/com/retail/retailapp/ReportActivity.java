@@ -30,8 +30,10 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.numetriclabz.numandroidcharts.ChartData;
 import com.numetriclabz.numandroidcharts.DonutChart;
+import com.retail.retailapp.database.DBHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReportActivity extends AppCompatActivity {
 
@@ -50,9 +52,15 @@ public class ReportActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    DBHandler dbHandler;
+
+    static List<PieEntry> entries = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbHandler = new DBHandler(this);
+        entries = dbHandler.getPieChartDetails(2016,11);
         setContentView(R.layout.activity_report);
 
 
@@ -137,16 +145,16 @@ public class ReportActivity extends AppCompatActivity {
 
                 PieChart pieChart = (PieChart) rootView.findViewById(R.id.pieChart);
 
-                ArrayList<PieEntry> entries = new ArrayList<>();
-                PieEntry pieEntry1 = new PieEntry(450, "Vegetables");
-                entries.add(pieEntry1);
-                PieEntry pieEntry2 = new PieEntry(589, "Med");
-                entries.add(pieEntry2);
 
-                PieEntry pieEntry3 = new PieEntry(900, "Grossery");
-                entries.add(pieEntry3);
-                PieEntry pieEntry4 = new PieEntry(250, "Diary");
-                entries.add(pieEntry4);
+//                PieEntry pieEntry1 = new PieEntry(450, "Vegetables");
+//                entries.add(pieEntry1);
+//                PieEntry pieEntry2 = new PieEntry(589, "Med");
+//                entries.add(pieEntry2);
+//
+//                PieEntry pieEntry3 = new PieEntry(900, "Grossery");
+//                entries.add(pieEntry3);
+//                PieEntry pieEntry4 = new PieEntry(250, "Diary");
+//                entries.add(pieEntry4);
 
                 PieDataSet pieDataSet = new PieDataSet(entries, "Category");
                 pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
