@@ -112,7 +112,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
                 System.out.println("Cart Number " + cartNumberView.getText());
                 cartNumberView.setText(cartNumber);
 
-                init_table_layout();
+//                init_table_layout();
                 load_table(data_map);
 
                 // When the given dropdown item is selected, show its contents in the
@@ -177,9 +177,9 @@ public class FetchSavedListActivity extends AppCompatActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+//    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void load_table(Map<String, List<PurchaseItem>> data_map) {
-
+        tblLayout = (TableLayout) findViewById(R.id.table_shopping_list);
 
         Iterator it = data_map.entrySet().iterator();
         while (it.hasNext()) {
@@ -239,6 +239,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
                 tv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 tv2.setTextColor(Color.BLACK);
                 tv2.setTypeface(tf, Typeface.NORMAL);
+                tv2.setGravity(Gravity.RIGHT);
                 tbrow.addView(tv2);
 
                 TextView tv3 = new TextView(this);
@@ -251,6 +252,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
                 tv3.setTextColor(Color.BLACK);
                 tv3.setGravity(Gravity.RIGHT);
                 tv3.setTypeface(tf, Typeface.NORMAL);
+                tv3.setGravity(Gravity.RIGHT);
                 tbrow.addView(tv3);
 
 //                Button btn = new Button(this);
