@@ -5,6 +5,7 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_orange_light"
     android:fitsSystemWindows="true"
     tools:context="com.retail.retailapp.FetchSavedListActivity">
 
@@ -85,48 +86,47 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cartnumber_lbl"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <TableLayout
+                    android:id="@+id/tblheader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tblheader"
                     android:background="#ffffff"
                     android:shrinkColumns="*"
-                    android:stretchColumns="*" >
+                    android:stretchColumns="*">
 
                     <!-- Table Header -->
 
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal" >
+                        android:gravity="center_horizontal">
 
 
                         <CheckBox
+                            android:id="@+id/header1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="left"
-                            android:id="@+id/header1"
                             android:text="Product     "
                             android:textColor="#000"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:id="@+id/header2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:id="@+id/header2"
                             android:text="Unit"
                             android:textColor="#000"
                             android:textSize="18sp" />
 
                         <TextView
+                            android:id="@+id/header3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:id="@+id/header3"
 
                             android:text=" Price"
                             android:textColor="#000"
@@ -141,8 +141,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/headerView"
-                android:scrollbars="vertical"
                 android:paddingBottom="40dp"
+                android:scrollbars="vertical"
 
 
                 >
@@ -151,11 +151,12 @@
                     android:id="@+id/table_shopping_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:shrinkColumns="*"
-                    android:stretchColumns="*"
                     android:isScrollContainer="true"
-                    >
-                    <TableRow android:layout_width="match_parent"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal">
 

@@ -2,10 +2,11 @@ package com.retail.retailapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -23,7 +24,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.data.PieEntry;
 import com.retail.retailapp.database.DBHandler;
 import com.retail.retailapp.dataloader.GroceryItemLoader;
 import com.retail.retailapp.dataloader.GroceryItemLoaderImpl;
@@ -34,14 +34,12 @@ import com.retail.retailapp.vo.PurchaseItem;
 
 import org.json.JSONException;
 
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
     Map<String, List<String>> quantityMap;
     Map<String, Map<String, Object>> masterMap;
     GroceryItemLoader itemloader;
-    private Typeface myFont;
     DBHandler dbHandler;
     double totalPrice = 0;
+    private Typeface myFont;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         /* Set the Font Verdana for Category */
         TextView tv = (TextView) findViewById(R.id.category_lbl);
         Typeface face = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
@@ -304,20 +303,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void init() {
         tblLayout = (TableLayout) findViewById(R.id.table_main);
+        tblLayout.getBackground().setColorFilter(ContextCompat.getColor(this, android.R.color.holo_orange_light), PorterDuff.Mode.MULTIPLY);
         Typeface face = Typeface.createFromAsset(getAssets(), GroceryConstant.FONTS_VERDANA_TTF);
         TableRow tbrow0 = new TableRow(this);
+
         TextView tv0 = new TextView(this);
         tv0.setText(GroceryConstant.SL_NO);
         tv0.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         tv0.setTextColor(Color.BLACK);
         tv0.setTypeface(face);
         tbrow0.addView(tv0);
+
         TextView tv1 = new TextView(this);
         tv1.setText(GroceryConstant.PRODUCT);
         tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         tv1.setTextColor(Color.BLACK);
         tv1.setTypeface(face);
         tv1.setWidth(230);
+        tv1.setBackgroundColor(Color.parseColor("#FFA500"));
+
         tbrow0.addView(tv1);
         TextView tv2 = new TextView(this);
         tv2.setText(GroceryConstant.UNIT);
