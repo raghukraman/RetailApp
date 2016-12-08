@@ -5,11 +5,11 @@
         <item
             android:id="@+id/nav_createnew"
             android:icon="@drawable/ic_newlist"
-            android:title="New Checker" />
+            android:title="New Shopping List" />
         <item
             android:id="@+id/nav_saved"
             android:icon="@drawable/ic_saved"
-            android:title="Saved Chekers" />
+            android:title="Saved Shopping List" />
         <item
             android:id="@+id/nav_report"
             android:icon="@drawable/ic_report"

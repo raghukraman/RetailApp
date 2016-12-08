@@ -116,6 +116,15 @@ public class DBHandler extends SQLiteOpenHelper {
 
         contentValues.put(ORDER_NO, formattedOrderNumber);
         long unixTimeNow = System.currentTimeMillis() / 1000;
+
+        /* Insert dummy data from reports verification
+        Calendar start = Calendar.getInstance();
+        start.set(2016,11,1,0,0,0);
+        Date datetemp = start.getTime();
+        long tempUnixTime = datetemp.getTime()/1000;
+        contentValues.put(CREATION_DATE,tempUnixTime);
+        End of Temp Dummy Data Changes */
+
         contentValues.put(CREATION_DATE, unixTimeNow);
         contentValues.put(STATUS, 0);
 
@@ -276,7 +285,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         System.out.println("End Unix Time " + endUnixTime);
 
-        String query = "select category,sum(price) from retail_order_details rod join retail_order ro on rod.orderno=ro.orderno where creation_date>=" + startUnixTime +  " and creation_date<=" + endUnixTime + " and ro.status=1 and rod.status=0 group by category";
+        String query = "select category,sum(price) from retail_order_details rod join retail_order ro on rod.orderno=ro.orderno where creation_date>=" + startUnixTime +  " and creation_date<=" + endUnixTime + " and ro.status=1 and rod.status=1 group by category";
 
 //        String query = "select category,price,rod.orderno,ro.creation_date from retail_order_details rod join retail_order ro on ro.orderno=rod.orderno";
 

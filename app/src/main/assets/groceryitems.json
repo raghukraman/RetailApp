@@ -186,17 +186,17 @@
         },
         {
           "name": "Pepsi",
-          "type": "Liter",
+          "type": "Litre",
           "price": 30.00
         },
         {
           "name": "Sprite",
-          "type": "Liter",
+          "type": "Litre",
           "price": 30.00
         },
         {
           "name": "7 Up",
-          "type": "Liter",
+          "type": "Litre",
           "price": 30.00
         }
       ]
