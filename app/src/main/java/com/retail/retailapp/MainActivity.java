@@ -203,6 +203,8 @@ public class MainActivity extends AppCompatActivity {
                 Double unitPrice = gItem.getPrice();
                 String type = gItem.getType();
                 final double productPrice = GroceryUtil.getPrice(groceryMap, category, productName, quantity).doubleValue();
+                System.out.println("The PRICE IS ======================= " + productPrice);
+                System.out.println("Unit Price =========" + unitPrice);
                 textView3.setText(new DecimalFormat("#.00").format(productPrice));
                 textView3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 textView3.setTextColor(Color.BLACK);
@@ -225,10 +227,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (selectedMap.get(category) != null) {
                     List<PurchaseItem> items = selectedMap.get(category);
-                    items.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type,false));
+                    items.add(new PurchaseItem(productName, productPrice,unitPrice , quantity, type,false));
                 } else {
                     List<PurchaseItem> newList = new ArrayList<>();
-                    newList.add(new PurchaseItem(productName, unitPrice, productPrice, quantity, type,false));
+                    newList.add(new PurchaseItem(productName, productPrice, unitPrice, quantity, type,false));
                     selectedMap.put(category, newList);
                 }
 

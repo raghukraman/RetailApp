@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Retail-App-Version 1.0</string>
+    <string name="app_name">Shopping CheckList</string>
     <string name="lbl">Text</string>
     <string name="category_lbl">Category:</string>
     <string name="add">Add</string>
@@ -19,6 +19,6 @@
     <string name="title_activity_fetch_saved_list">FetchSavedListActivity</string>
     <string name="section_format">Pie Chart - Category Wise: %1$d</string>
     <string name="total">"Total : "</string>
-    <string name="title_activity_report">ReportActivity</string>
+    <string name="title_activity_report">Report</string>
 
 </resources>
