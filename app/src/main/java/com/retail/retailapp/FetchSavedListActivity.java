@@ -8,8 +8,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ThemedSpinnerAdapter;
@@ -26,18 +24,19 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.retail.retailapp.database.DBHandler;
 import com.retail.retailapp.util.GroceryConstant;
 import com.retail.retailapp.vo.PurchaseItem;
 
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +55,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
     double totalPrice = 0;
 
     CheckBox productSpaceCheckBox;
+    Map<String, String> mapOrderedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fetch_saved_list);
         Intent caller = getIntent();
         dbHandler = new DBHandler(this);
+        mapOrderedItems = new HashMap<String, String>();
         String orderNumber = "";
                 try {
                     orderNumber= (String) caller.getExtras().get("orderNumber");
@@ -79,9 +80,10 @@ public class FetchSavedListActivity extends AppCompatActivity {
 //        init_table_layout();
 //        load_table(data_map);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         List<String> openOrders = dbHandler.getOpenOrders();
         String[] openOrdersArray = new String[openOrders.size()];
@@ -110,7 +112,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
                 System.out.println("Cart Number " + cartNumberView.getText());
                 cartNumberView.setText(cartNumber);
 
-                init_table_layout();
+//                init_table_layout();
                 load_table(data_map);
 
                 // When the given dropdown item is selected, show its contents in the
@@ -126,12 +128,20 @@ public class FetchSavedListActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button finsihButton = (Button) findViewById(R.id.done_btn);
+        finsihButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                TextView cartNumberText = (TextView) findViewById(R.id.cartnumber);
+                String cart_number = cartNumberText.getText().toString();
+                boolean result = dbHandler.updateOrder(cart_number, mapOrderedItems);
+                if (result) {
+                    Spinner spinnerView = (Spinner) findViewById(R.id.spinner);
+                    Toast.makeText(FetchSavedListActivity.this, "This order is closed successfully", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(FetchSavedListActivity.this, "Something went wrong !! ", Toast.LENGTH_LONG).show();
+
+                }
             }
         });
 
@@ -147,22 +157,29 @@ public class FetchSavedListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+//    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void load_table(Map<String, List<PurchaseItem>> data_map) {
-
+        tblLayout = (TableLayout) findViewById(R.id.table_shopping_list);
 
         Iterator it = data_map.entrySet().iterator();
         while (it.hasNext()) {
@@ -193,17 +210,22 @@ public class FetchSavedListActivity extends AppCompatActivity {
                             View row = (View) v.getParent();
                             TableRow tbRow = (TableRow) row;
                             TextView textView = (TextView) tbRow.getChildAt(2);
+                            TextView itemName = (TextView) tbRow.getChildAt(0);
                             double rowPrice = Double.valueOf(textView.getText().toString()).doubleValue();
                             totalPrice = totalPrice + rowPrice;
                             totalAmountText.setText(new DecimalFormat("#.00").format(totalPrice));
+                            mapOrderedItems.put(itemName.getText().toString(), itemName.getText().toString());
+
                         } else if (checkBox.isChecked() == false) {
                             totalAmountText = (TextView) findViewById(R.id.amount);
                             View row = (View) v.getParent();
                             TableRow tbRow = (TableRow) row;
                             TextView textView = (TextView) tbRow.getChildAt(2);
+                            TextView itemName = (TextView) tbRow.getChildAt(0);
                             double rowPrice = Double.valueOf(textView.getText().toString()).doubleValue();
                             totalPrice = totalPrice - rowPrice;
                             totalAmountText.setText(new DecimalFormat("#.00").format(totalPrice));
+                            mapOrderedItems.remove(itemName.getText().toString());
                         } else {
 
                         }
@@ -217,6 +239,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
                 tv2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 tv2.setTextColor(Color.BLACK);
                 tv2.setTypeface(tf, Typeface.NORMAL);
+                tv2.setGravity(Gravity.RIGHT);
                 tbrow.addView(tv2);
 
                 TextView tv3 = new TextView(this);
@@ -229,6 +252,7 @@ public class FetchSavedListActivity extends AppCompatActivity {
                 tv3.setTextColor(Color.BLACK);
                 tv3.setGravity(Gravity.RIGHT);
                 tv3.setTypeface(tf, Typeface.NORMAL);
+                tv3.setGravity(Gravity.RIGHT);
                 tbrow.addView(tv3);
 
 //                Button btn = new Button(this);

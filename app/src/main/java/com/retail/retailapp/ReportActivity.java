@@ -17,6 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -30,8 +33,13 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.numetriclabz.numandroidcharts.ChartData;
 import com.numetriclabz.numandroidcharts.DonutChart;
+import com.retail.retailapp.database.DBHandler;
+import com.retail.retailapp.util.SpinnerUtil;
+import com.retail.retailapp.vo.SpinnerEntry;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class ReportActivity extends AppCompatActivity {
 
@@ -50,10 +58,22 @@ public class ReportActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    private static DBHandler dbHandler;
+
+    static List<PieEntry> entries = new ArrayList<>();
+
+    private String year ;
+
+    private String month;
+
+    private static PieChart pieChart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
+
+        dbHandler = new DBHandler(this);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,6 +97,7 @@ public class ReportActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
     }
 
     @Override
@@ -131,22 +152,18 @@ public class ReportActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_report, container, false);
+
+            List<PieEntry> entries = loadYearAndMonth(rootView);
+
+
+
+//            entries = dbHandler.getPieChartDetails(2016,11);
+
             if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
                 TextView textView = (TextView) rootView.findViewById(R.id.section_label);
                 textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
-                PieChart pieChart = (PieChart) rootView.findViewById(R.id.pieChart);
-
-                ArrayList<PieEntry> entries = new ArrayList<>();
-                PieEntry pieEntry1 = new PieEntry(450, "Vegetables");
-                entries.add(pieEntry1);
-                PieEntry pieEntry2 = new PieEntry(589, "Med");
-                entries.add(pieEntry2);
-
-                PieEntry pieEntry3 = new PieEntry(900, "Grossery");
-                entries.add(pieEntry3);
-                PieEntry pieEntry4 = new PieEntry(250, "Diary");
-                entries.add(pieEntry4);
+                 pieChart= (PieChart) rootView.findViewById(R.id.pieChart);
 
                 PieDataSet pieDataSet = new PieDataSet(entries, "Category");
                 pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -159,17 +176,17 @@ public class ReportActivity extends AppCompatActivity {
                 textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
                 BarChart chart = (BarChart) rootView.findViewById(R.id.barChart1);
-                ArrayList<BarEntry> entries = new ArrayList<>();
-                entries.add(new BarEntry(10f, 0));
-                entries.add(new BarEntry(5f, 1));
-                entries.add(new BarEntry(6f, 2));
-                entries.add(new BarEntry(8f, 3));
-                entries.add(new BarEntry(2f, 4));
-                entries.add(new BarEntry(20f, 5));
+                ArrayList<BarEntry> entries2 = new ArrayList<>();
+                entries2.add(new BarEntry(10f, 0));
+                entries2.add(new BarEntry(5f, 1));
+                entries2.add(new BarEntry(6f, 2));
+                entries2.add(new BarEntry(8f, 3));
+                entries2.add(new BarEntry(2f, 4));
+                entries2.add(new BarEntry(20f, 5));
 
-                BarDataSet dataset = new BarDataSet(entries, "Monthly Amount");
+                BarDataSet dataset = new BarDataSet(entries2, "Monthly Amount");
 
-                dataset.setValues(entries);
+                dataset.setValues(entries2);
 
                 ArrayList<String> labels = new ArrayList<String>();
                 labels.add("January");
@@ -216,6 +233,90 @@ public class ReportActivity extends AppCompatActivity {
 
 
         }
+
+        private List<PieEntry> loadYearAndMonth(View rootView) {
+            final Spinner yearSpinner = (Spinner) rootView.findViewById(R.id.year_id);
+            Spinner monthSpinner = (Spinner) rootView.findViewById(R.id.month_id);
+
+            List<String> years = new ArrayList<>();
+            List<String> month = new ArrayList<>();
+
+            //Loading the years into spinner
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+
+            for (int i = 2015; i <= year; i++) {
+                years.add(String.valueOf(i).toString());
+            }
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, years);
+            adapter1.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            yearSpinner.setAdapter(adapter1);
+
+            //Loading the months into spinner
+
+            final SpinnerEntry items[] = new SpinnerEntry[12];
+            final String months[] = { "January", "Febrary", "March", "April", "May","June","July", "August","September","October","November","December"};
+            for (int i = 0; i < 12; i++) {
+                items[i]= new SpinnerEntry(months[i],""+i);
+            }
+
+            ArrayAdapter<SpinnerEntry> adapter2 = new ArrayAdapter<SpinnerEntry>(this.getActivity(), android.R.layout.simple_spinner_item, items);
+            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            monthSpinner.setAdapter(adapter2);
+
+
+
+
+
+            String yearValue = yearSpinner.getItemAtPosition(yearSpinner.getSelectedItemPosition()).toString();
+            System.out.println("Year Value " + yearValue);
+            SpinnerEntry selectedEntry = (SpinnerEntry) monthSpinner.getItemAtPosition(monthSpinner.getSelectedItemPosition());
+
+            Integer yearVal = Integer.parseInt(yearValue);
+            Integer monthVal = Integer.parseInt(selectedEntry.getValue());
+            System.out.println("Month Value is " + monthVal);
+
+            Calendar c = Calendar.getInstance();
+            int calendar_year = c.get(Calendar.YEAR);
+            int calendar_month = c.get(Calendar.MONTH);
+
+            String[] yearsArray = years.toArray(new String[years.size()]);
+            SpinnerUtil.SetSpinnerSelection(yearSpinner,yearsArray,calendar_year+"");
+            monthSpinner.setSelection(calendar_month);
+
+            monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    SpinnerEntry entry = (SpinnerEntry) parent.getSelectedItem();
+                    int selectedMonth = Integer.parseInt(entry.getValue());
+                    String yearValue = yearSpinner.getItemAtPosition(yearSpinner.getSelectedItemPosition()).toString();
+                    int selectedYear = Integer.parseInt(yearValue);
+                    System.out.println("Year selected " + selectedYear +" selected month " + selectedMonth);
+                    entries = dbHandler.getPieChartDetails(selectedYear,selectedMonth);
+                    System.out.println("Entries is " + entries);
+                    pieChart.clear();
+                    PieDataSet pieDataSet = new PieDataSet(entries, "Category");
+                    pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                    PieData pieData = new PieData(pieDataSet);
+                    pieChart.setData(pieData);
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+
+            System.out.println("Year " + calendar_year + " month " + calendar_month);
+
+
+            List<PieEntry> entries=dbHandler.getPieChartDetails(calendar_year,calendar_month);
+
+            return entries;
+
+        }
+
     }
 
     /**
@@ -254,4 +355,6 @@ public class ReportActivity extends AppCompatActivity {
             return null;
         }
     }
+
+
 }

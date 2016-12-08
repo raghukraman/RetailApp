@@ -24,6 +24,7 @@ public class GroceryUtil {
             String itemName = gi.getName();
             list.add(itemName);
         }
+        Collections.sort(list);
         return list;
     }
 
